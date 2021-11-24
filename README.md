@@ -1,0 +1,1 @@
+# SwiftUI-snapshot-test-case
