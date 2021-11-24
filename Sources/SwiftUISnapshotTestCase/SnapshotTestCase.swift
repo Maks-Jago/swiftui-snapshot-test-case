@@ -1,6 +1,6 @@
 import Foundation
 import XCTest
-@_exported import SnapshotTesting
+import SnapshotTesting
 import SwiftUI
 
 open class SnapshotTestCase: XCTestCase {
@@ -18,7 +18,7 @@ open class SnapshotTestCase: XCTestCase {
     }
 
     private func validateOrRecord<V: View>(for component: UIHostingController<V>, file: StaticString, testName: String, line: UInt) {
-        assertSnapshot(matching: component, as: .image, record: isRecording, file: file, testName: testName, line: line)
+        assertSnapshot(matching: component, as: .image, record: self.isRecording, file: file, testName: testName, line: line)
     }
 
     private func vc<V: View>(for view: V, device: DeviceSize) -> UIHostingController<V> {
