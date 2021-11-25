@@ -18,7 +18,8 @@ open class SnapshotTestCase: XCTestCase {
     }
 
     private func validateOrRecord<V: View>(for component: UIHostingController<V>, file: StaticString, testName: String, line: UInt) {
-        assertSnapshot(matching: component, as: .image, record: self.isRecording, file: file, testName: testName, line: line)
+        let bundlePath = Bundle(for: type(of: self)).bundlePath
+        assertSnapshot(matching: component, as: .image, record: self.isRecording, snapshotDirectory: bundlePath, file: file, testName: testName, line: line)
     }
 
     private func vc<V: View>(for view: V, device: DeviceSize) -> UIHostingController<V> {
