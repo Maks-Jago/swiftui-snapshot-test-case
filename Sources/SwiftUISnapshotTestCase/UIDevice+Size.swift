@@ -1,54 +1,71 @@
 import Foundation
 import struct CoreGraphics.CGSize
 
-/// This enum gives us simple way how to recognize which UIDevice size
-///
-/// For the resolutions, refer to
-/// Apple official website:
-/// https://developer.apple.com/library/archive/documentation/DeviceInformation/Reference/iOSDeviceCompatibility/Displays/Displays.html
-/// Because the documentation is missing, I ran simulators and manually checked some resolutions on
-/// `UIScreen.main.bounds` (for Xr, XS Max and 11-inch iPhones) Apple somehow doesn't update the documentation.
 public enum DeviceSize: String, CaseIterable {
     // iPhones:
-    case iPhoneX // XS
-    case iPhoneXSMax // Fun fact: Xr has same logical resolution as XS Max.
-    // https://stackoverflow.com/a/52425261/5774854
-    case iPhone8Plus // Since iPhone 6+, this works for all of our screens
-    case iPhone8 // Since iPhone 6, this works for all of our screens
-    case iPhoneSE // iPhone 5, 5S... SE 2 maybe? 🚀
-    case iPhone4 // 4S
+    case iPhone13ProMaxAndiPhone12ProMax
+    case iPhone11ProMaxAndXSMax
+    case iPhones13Pro_13_12Pro_12
+    case iPhone13miniAnd12mini
+    case iPhone11AndiPhoneXR
+    case iPhones11Pro_XS_X
+    case iPhones8Plus_7Plus_6SPlus
+    case iPhonesSE2_8_7_6S
+    case iPhoneSEAndiPodTouch7
+
     // iPads:
-    case iPadAir // Also known as: iPad 3, iPad 4, iPad Air, iPad Air 2, 9.7-inch iPad Pro
-    // iPad Minis have same logical resolutions, but are different in PPI (higher) and physical display.
-    // I expect them to behave the same in same logical resolutions.
-    case iPadPro10AndHalfInch
-    case iPadPro11Inch
     case iPadPro12Point9Inch
+    case iPadPro11Inch
+    case iPadAir10Point9Inch
+    case iPadAirAndPro10Point5Inch
+    case iPad10Point2Inch
+    case iPadProAndAir9Point7Inch
+    case iPadMini8Point3Inch
+    case iPadMini7Point9Inch
 
     var size: CGSize {
         switch self {
             // iPhones
-        case .iPhoneX:
-            return .init(width: 375, height: 812)
-        case .iPhoneXSMax:
+        case .iPhone13ProMaxAndiPhone12ProMax:
+            return .init(width: 428, height: 926)
+        case .iPhone11ProMaxAndXSMax:
             return .init(width: 414, height: 896)
-        case .iPhone8Plus:
+        case .iPhones13Pro_13_12Pro_12:
+            return .init(width: 390, height: 844)
+        case .iPhone13miniAnd12mini:
+            return .init(width: 375, height: 812)
+        case .iPhone11AndiPhoneXR:
+            return .init(width: 414, height: 896)
+        case .iPhones11Pro_XS_X:
+            return .init(width: 375, height: 812)
+        case .iPhones8Plus_7Plus_6SPlus:
             return .init(width: 414, height: 736)
-        case .iPhone8:
+        case .iPhonesSE2_8_7_6S:
             return .init(width: 375, height: 667)
-        case .iPhoneSE:
+        case .iPhoneSEAndiPodTouch7:
             return .init(width: 320, height: 568)
-        case .iPhone4:
-            return .init(width: 320, height: 480)
+
             // iPads:
-        case .iPadAir:
-            return .init(width: 768, height: 1024)
-        case .iPadPro10AndHalfInch:
-            return .init(width: 834, height: 1112)
-        case .iPadPro11Inch:
-            return .init(width: 834, height: 1194)
         case .iPadPro12Point9Inch:
             return .init(width: 1024, height: 1366)
+        case .iPadPro11Inch:
+            return .init(width: 834, height: 1194)
+        case .iPadAir10Point9Inch:
+            return .init(width: 820, height: 1180)
+        case .iPadAirAndPro10Point5Inch:
+            return .init(width: 834, height: 1112)
+        case .iPad10Point2Inch:
+            return .init(width: 810, height: 1080)
+        case .iPadProAndAir9Point7Inch:
+            return .init(width: 768, height: 1024)
+        case .iPadMini8Point3Inch:
+            return .init(width: 744, height: 1133)
+        case .iPadMini7Point9Inch:
+            return .init(width: 768, height: 1024)
         }
     }
+
+    public static var allPhones: [DeviceSize] = [.iPhone13ProMaxAndiPhone12ProMax, .iPhone11ProMaxAndXSMax, .iPhones13Pro_13_12Pro_12, .iPhone13miniAnd12mini, .iPhone11AndiPhoneXR, .iPhones11Pro_XS_X, .iPhones8Plus_7Plus_6SPlus, .iPhonesSE2_8_7_6S, .iPhoneSEAndiPodTouch7]
+
+    public static var allPads: [DeviceSize] = [.iPadPro12Point9Inch, .iPadPro11Inch, .iPadAir10Point9Inch, .iPadAirAndPro10Point5Inch, .iPad10Point2Inch, .iPadProAndAir9Point7Inch, .iPadMini8Point3Inch, .iPadMini7Point9Inch]
 }
