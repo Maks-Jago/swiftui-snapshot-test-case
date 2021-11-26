@@ -19,7 +19,6 @@ open class SnapshotTestCase: XCTestCase {
 
     private func validateOrRecord<V: View>(for component: UIHostingController<V>, scale: CGFloat, file: StaticString, testName: String, line: UInt) {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
-        UIView.setAnimationsEnabled(false)
         assertSnapshot(matching: component, as: .image(scale: scale), record: self.isRecording, snapshotDirectory: bundlePath, file: file, testName: testName, line: line)
     }
 
@@ -29,3 +28,45 @@ open class SnapshotTestCase: XCTestCase {
         return vc
     }
 }
+
+//fileprivate extension DeviceSize {
+//    var configs: ViewImageConfig {
+//switch self {
+//        case .iPhone13ProMaxAndiPhone12ProMax:
+//            <#code#>
+//        case .iPhone11ProMaxAndXSMax:
+//            <#code#>
+//        case .iPhones13Pro_13_12Pro_12:
+//            <#code#>
+//        case .iPhone13miniAnd12mini:
+//            <#code#>
+//        case .iPhone11AndiPhoneXR:
+//            <#code#>
+//        case .iPhones11Pro_XS_X:
+//            <#code#>
+//        case .iPhones8Plus_7Plus_6SPlus:
+//            <#code#>
+//        case .iPhonesSE2_8_7_6S:
+//            <#code#>
+//        case .iPhoneSEAndiPodTouch7:
+//            <#code#>
+//        case .iPadPro12Point9Inch:
+//            <#code#>
+//        case .iPadPro11Inch:
+//            <#code#>
+//        case .iPadAir10Point9Inch:
+//            <#code#>
+//        case .iPadAirAndPro10Point5Inch:
+//            <#code#>
+//        case .iPad10Point2Inch:
+//            <#code#>
+//        case .iPadProAndAir9Point7Inch:
+//            <#code#>
+//        case .iPadMini8Point3Inch:
+//            <#code#>
+//        case .iPadMini7Point9Inch:
+//            return .iPadMini
+//
+//        }
+//    }
+//}
