@@ -1,5 +1,5 @@
 import Foundation
-import struct CoreGraphics.CGSize
+import CoreGraphics
 
 public enum DeviceSize: String, CaseIterable {
     // iPhones:
@@ -63,6 +63,26 @@ public enum DeviceSize: String, CaseIterable {
         case .iPadMini7Point9Inch:
             return .init(width: 768, height: 1024)
         }
+    }
+
+    var scaleFactor: CGFloat {
+        switch self {
+        case .iPhone13ProMaxAndiPhone12ProMax, .iPhone11ProMaxAndXSMax, .iPhones13Pro_13_12Pro_12, .iPhone13miniAnd12mini, .iPhones11Pro_XS_X, .iPhones8Plus_7Plus_6SPlus:
+            return 3.0
+
+        case .iPhone11AndiPhoneXR, .iPhonesSE2_8_7_6S, .iPhoneSEAndiPodTouch7:
+            return 2.0
+
+        case _ where Self.allPads.contains(self):
+            return 2.0
+
+        default:
+            return 1.0
+        }
+    }
+
+    var scaledSize: CGSize {
+        CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
     }
 
     public static var allPhones: [DeviceSize] = [.iPhone13ProMaxAndiPhone12ProMax, .iPhone11ProMaxAndXSMax, .iPhones13Pro_13_12Pro_12, .iPhone13miniAnd12mini, .iPhone11AndiPhoneXR, .iPhones11Pro_XS_X, .iPhones8Plus_7Plus_6SPlus, .iPhonesSE2_8_7_6S, .iPhoneSEAndiPodTouch7]
