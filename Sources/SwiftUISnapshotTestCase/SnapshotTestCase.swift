@@ -13,13 +13,13 @@ open class SnapshotTestCase: XCTestCase {
             .preferredColorScheme(colorScheme)
 
         devices.forEach { deviceSize in
-            validateOrRecord(for: vc(for: view, device: deviceSize), file: file, testName: testName + "_" + deviceSize.rawValue, line: line)
+            validateOrRecord(for: vc(for: view, device: deviceSize), scale: deviceSize.scaleFactor, file: file, testName: testName + "_" + deviceSize.rawValue, line: line)
         }
     }
 
-    private func validateOrRecord<V: View>(for component: UIHostingController<V>, file: StaticString, testName: String, line: UInt) {
+    private func validateOrRecord<V: View>(for component: UIHostingController<V>, scale: CGFloat, file: StaticString, testName: String, line: UInt) {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
-        assertSnapshot(matching: component, as: .image(scale: 1), record: self.isRecording, snapshotDirectory: bundlePath, file: file, testName: testName, line: line)
+        assertSnapshot(matching: component, as: .image(scale: scale), record: self.isRecording, snapshotDirectory: bundlePath, file: file, testName: testName, line: line)
     }
 
     private func vc<V: View>(for view: V, device: DeviceSize) -> UIHostingController<V> {
