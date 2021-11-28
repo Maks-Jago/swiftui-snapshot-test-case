@@ -3,6 +3,7 @@ import XCTest
 import SnapshotTesting
 @_exported import struct SnapshotTesting.ViewImageConfig
 import SwiftUI
+import Introspect
 
 open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
@@ -16,7 +17,11 @@ open class SnapshotTestCase: XCTestCase {
 
         devices.forEach { deviceSize in
 
-            let vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
+            let vc = SnapshotHostingController(rootView: view.introspectViewController(customize: { vc in
+                let navController = vc.navigationController
+                print("navController: \(navController)")
+                print("")
+            }), insets: deviceSize.safeArea)
 //            vc.edgesForExtendedLayout = []
             validateOrRecord(for: vc, config: deviceSize, precision: precision, file: file, testName: testName + "_" + deviceSize.name, line: line)
         }
