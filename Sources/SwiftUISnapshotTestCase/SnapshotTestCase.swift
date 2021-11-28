@@ -16,10 +16,12 @@ open class SnapshotTestCase: XCTestCase {
 
         devices.forEach { deviceSize in
 
-            let viewWithSafeArea = view
-                .edgesIgnoringSafeArea(.all)
-                .padding(EdgeInsets(top: deviceSize.safeArea.top, leading: deviceSize.safeArea.left, bottom: deviceSize.safeArea.bottom, trailing: deviceSize.safeArea.right))
-            validateOrRecord(for: UIHostingController(rootView: viewWithSafeArea), config: deviceSize, file: file, testName: testName + "_" + deviceSize.name, line: line)
+
+            let vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
+//            let viewWithSafeArea = view
+//                .edgesIgnoringSafeArea(.all)
+//                .padding(EdgeInsets(top: deviceSize.safeArea.top, leading: deviceSize.safeArea.left, bottom: deviceSize.safeArea.bottom, trailing: deviceSize.safeArea.right))
+            validateOrRecord(for: vc, config: deviceSize, file: file, testName: testName + "_" + deviceSize.name, line: line)
         }
     }
 
