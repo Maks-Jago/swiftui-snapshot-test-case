@@ -7,13 +7,20 @@
 
 import Foundation
 import SwiftUI
+import Introspect
 
 final class SnapshotHostingController<Content: View>: UIHostingController<Content> {
     var insets: UIEdgeInsets
+    var navController: UINavigationController? = nil
+    var testAnyView: AnyView!
 
     init(rootView: Content, insets: UIEdgeInsets) {
         self.insets = insets
         super.init(rootView: rootView)
+
+        self.testAnyView = AnyView(rootView.introspectNavigationController { [weak self] navController in
+            self?.navController = navController
+        })
 
         let _class: AnyClass = view.classForCoder
 
@@ -31,7 +38,7 @@ final class SnapshotHostingController<Content: View>: UIHostingController<Conten
             return
         }
 
-//        class_replaceMethod(_class, #selector(getter: UIView.safeAreaInsets), imp_implementationWithBlock(safeAreaInsets), method_getTypeEncoding(method))
+        class_replaceMethod(_class, #selector(getter: UIView.safeAreaInsets), imp_implementationWithBlock(safeAreaInsets), method_getTypeEncoding(method))
     }
 
     @MainActor @objc required dynamic init?(coder aDecoder: NSCoder) {
