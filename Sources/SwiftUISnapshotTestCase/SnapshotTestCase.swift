@@ -17,6 +17,7 @@ open class SnapshotTestCase: XCTestCase {
         devices.forEach { deviceSize in
 
             let vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
+            vc.edgesForExtendedLayout = []
             validateOrRecord(for: vc, config: deviceSize, precision: precision, file: file, testName: testName + "_" + deviceSize.name, line: line)
         }
     }
