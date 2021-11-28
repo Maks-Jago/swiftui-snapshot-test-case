@@ -18,6 +18,12 @@ final class SnapshotHostingController<Content: View>: UIHostingController<Conten
         let _class: AnyClass = view.classForCoder
 
         let safeAreaInsets: @convention(block) (AnyObject) -> UIEdgeInsets = { [weak self] _ in
+            let navigationController = self?.navigationController
+            print(navigationController)
+
+            let navBar = navigationController?.navigationBar
+            print(navBar)
+
             return self?.insets ?? .zero
         }
 
