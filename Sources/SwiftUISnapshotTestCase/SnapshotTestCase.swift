@@ -15,7 +15,11 @@ open class SnapshotTestCase: XCTestCase {
             .preferredColorScheme(colorScheme)
 
         devices.forEach { deviceSize in
-            validateOrRecord(for: UIHostingController(rootView: view), config: deviceSize, file: file, testName: testName + "_" + deviceSize.name, line: line)
+
+            let viewWithSafeArea = view
+                .edgesIgnoringSafeArea(.all)
+                .padding(EdgeInsets(top: deviceSize.safeArea.top, leading: deviceSize.safeArea.left, bottom: deviceSize.safeArea.bottom, trailing: deviceSize.safeArea.right))
+            validateOrRecord(for: UIHostingController(rootView: viewWithSafeArea), config: deviceSize, file: file, testName: testName + "_" + deviceSize.name, line: line)
         }
     }
 
