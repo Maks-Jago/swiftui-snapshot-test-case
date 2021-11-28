@@ -21,10 +21,6 @@ final class SnapshotHostingController<Content: View>: UIHostingController<Conten
             return self?.insets ?? .zero
         }
 
-//        let myBlock: (AnyObject) -> UIEdgeInsets = { (sself: AnyObject!) -> (UIEdgeInsets) in
-//            return .zero
-//        }
-
         guard let method = class_getInstanceMethod(_class.self, #selector(getter: UIView.safeAreaInsets)) else {
             return
         }
