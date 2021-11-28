@@ -15,7 +15,7 @@ open class SnapshotTestCase: XCTestCase {
             .preferredColorScheme(colorScheme)
 
         devices.forEach { deviceSize in
-            validateOrRecord(for: UIHostingController(rootView: view), config: deviceSize, file: file, testName: testName + "_\(deviceSize)", line: line)
+            validateOrRecord(for: UIHostingController(rootView: view), config: deviceSize, file: file, testName: testName + "_" + deviceSize.name, line: line)
         }
     }
 
