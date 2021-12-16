@@ -3,11 +3,9 @@ import XCTest
 import SnapshotTesting
 @_exported import struct SnapshotTesting.ViewImageConfig
 import SwiftUI
-import Introspect
 
 open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
-//    open var devices: [DeviceSize] = [.iPhone13ProMaxAndiPhone12ProMax, .iPhones13Pro_13_12Pro_12, .iPhone13miniAnd12mini, .iPhonesSE2_8_7_6S, .iPhoneSEAndiPodTouch7]
     open var devices: [ViewImageConfig] = [.iPhoneXsMax, .iPhone8, .iPhoneSe, .iPhone8Plus]
 
     public func snapshot<V: View>(for component: V, precision: Float = 1, colorScheme: ColorScheme = .light, file: StaticString = #file, testName: String = #function, line: UInt = #line) {
@@ -16,13 +14,7 @@ open class SnapshotTestCase: XCTestCase {
             .preferredColorScheme(colorScheme)
 
         devices.forEach { deviceSize in
-
-            let vc = SnapshotHostingController(rootView: view.introspectViewController(customize: { vc in
-                let navController = vc.navigationController
-                print("navController: \(navController)")
-                print("")
-            }), insets: deviceSize.safeArea)
-//            vc.edgesForExtendedLayout = []
+            let vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
             validateOrRecord(for: vc, config: deviceSize, precision: precision, file: file, testName: testName + "_" + deviceSize.name, line: line)
         }
     }

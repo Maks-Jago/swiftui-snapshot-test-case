@@ -7,30 +7,16 @@
 
 import Foundation
 import SwiftUI
-import Introspect
 
 final class SnapshotHostingController<Content: View>: UIHostingController<Content> {
     var insets: UIEdgeInsets
-    var navController: UINavigationController? = nil
-    var testAnyView: AnyView!
 
     init(rootView: Content, insets: UIEdgeInsets) {
         self.insets = insets
         super.init(rootView: rootView)
 
-        self.testAnyView = AnyView(rootView.introspectNavigationController { [weak self] navController in
-            self?.navController = navController
-        })
-
         let _class: AnyClass = view.classForCoder
-
         let safeAreaInsets: @convention(block) (AnyObject) -> UIEdgeInsets = { [weak self] _ in
-            let navigationController = self?.navigationController
-            print(navigationController)
-
-            let navBar = navigationController?.navigationBar
-            print(navBar)
-
             return self?.insets ?? .zero
         }
 
@@ -43,11 +29,5 @@ final class SnapshotHostingController<Content: View>: UIHostingController<Conten
 
     @MainActor @objc required dynamic init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func viewSafeAreaInsetsDidChange() {
-        super.viewSafeAreaInsetsDidChange()
-
-        print("")
     }
 }

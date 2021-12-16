@@ -15,15 +15,13 @@ let package = Package(
             targets: ["SwiftUISnapshotTestCase"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", .exact("1.9.18")),
-        .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", .exact("0.1.3"))
+        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", .exact("1.9.20"))
     ],
     targets: [
         .target(
             name: "SwiftUISnapshotTestCase",
             dependencies: [
-                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
-                .product(name: "Introspect", package: "SwiftUI-Introspect")
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
             ]
         )
     ]
