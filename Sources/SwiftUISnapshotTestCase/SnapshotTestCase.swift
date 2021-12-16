@@ -6,7 +6,7 @@ import SwiftUI
 
 open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
-    open var devices: [ViewImageConfig] = [.iPhoneXsMax, .iPhone8, .iPhoneSe, .iPhone8Plus]
+    open var devices: [ViewImageConfig] = [.iPhone13, .iPhoneXsMax, .iPhone8, .iPhoneSe, .iPhone8Plus]
 
     public func snapshot<V: View>(for component: V, precision: Float = 1, colorScheme: ColorScheme = .light, file: StaticString = #file, testName: String = #function, line: UInt = #line) {
         let view = component
