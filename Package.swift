@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.4
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -15,7 +15,7 @@ let package = Package(
             targets: ["SwiftUISnapshotTestCase"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", .exact("1.9.27"))
+        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", .exact("1.9.28"))
     ],
     targets: [
         .target(
