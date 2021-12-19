@@ -53,6 +53,7 @@ open class SnapshotTestCase: XCTestCase {
             as: .image(on: config, precision: precision, interfaceStyle: interfaceStyle),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
+            addAttachment: { self.add($0) },
             file: file,
             testName: testName,
             line: line
