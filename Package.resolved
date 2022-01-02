@@ -2,12 +2,21 @@
   "object": {
     "pins": [
       {
+        "package": "iOSSnapshotTestCase",
+        "repositoryURL": "https://github.com/uber/ios-snapshot-test-case.git",
+        "state": {
+          "branch": null,
+          "revision": "7b10770333a961be6e5a41c9ce04b8c6d3990126",
+          "version": "8.0.0"
+        }
+      },
+      {
         "package": "SnapshotTesting",
         "repositoryURL": "https://github.com/urlaunched-com/swift-snapshot-testing.git",
         "state": {
           "branch": null,
-          "revision": "87f0b38985f84df58ebe9d55e402d874d631a949",
-          "version": "1.9.48"
+          "revision": "c1184b44afb66a88016657454500d2c663f37dda",
+          "version": "1.9.49"
         }
       }
     ]
