@@ -2,23 +2,23 @@ import Foundation
 import UIKit
 
 extension UIScreen {
-    @objc dynamic var _traitCollection: UITraitCollection {
+    @objc dynamic var swizzledTraitCollection: UITraitCollection {
         ViewImageConfig.global.traits
     }
 
-    @objc dynamic var _bounds: CGRect {
-        let bounds = ViewImageConfig.global.size.map { CGRect(origin: .zero, size: $0) } ?? self._bounds
+    @objc dynamic var swizzledBounds: CGRect {
+        let bounds = ViewImageConfig.global.size.map { CGRect(origin: .zero, size: $0) } ?? .zero
         return bounds
     }
 
-    @objc dynamic var _scale: CGFloat {
-        self._scale
+    @objc dynamic var swizzledScale: CGFloat {
+        1
     }
 
     static func swizzle() {
-        exchange(#selector(getter: UIScreen.traitCollection), #selector(getter: UIScreen._traitCollection))
-        exchange(#selector(getter: UIScreen.bounds), #selector(getter: UIScreen._bounds))
-        exchange(#selector(getter: UIScreen.scale), #selector(getter: UIScreen._scale))
+        exchange(#selector(getter: UIScreen.traitCollection), #selector(getter: UIScreen.swizzledTraitCollection))
+        exchange(#selector(getter: UIScreen.bounds), #selector(getter: UIScreen.swizzledBounds))
+        exchange(#selector(getter: UIScreen.scale), #selector(getter: UIScreen.swizzledScale))
     }
 
     private static func exchange(_ sel1: Selector, _ self2: Selector) {
