@@ -12,7 +12,7 @@ extension UIScreen {
     }
 
     @objc dynamic var swizzledScale: CGFloat {
-        1
+        ViewImageConfig.global.traits.displayScale
     }
 
     static func swizzle() {
