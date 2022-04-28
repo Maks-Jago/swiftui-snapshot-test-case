@@ -8,7 +8,15 @@ open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
     open var devices: [ViewImageConfig] = [.iPhone13, .iPhone13Mini, .iPhone8, .iPhone8Plus, .iPhoneSE2]
 
-    public func snapshot<V: View>(for component: V, precision: Float = 1, colorScheme: ColorScheme = .light, file: StaticString = #file, testName: String = #function, line: UInt = #line) {
+    public func snapshot<V: View>(
+        for component: V,
+        precision: Float = 1,
+        drawHierarchyAfterScreenUpdates: Bool = false,
+        colorScheme: ColorScheme = .light,
+        file: StaticString = #file,
+        testName: String = #function,
+        line: UInt = #line
+    ) {
         DispatchQueue.once {
             UIScreen.swizzle()
         }
@@ -36,6 +44,7 @@ open class SnapshotTestCase: XCTestCase {
                 for: vc,
                 config: deviceSize,
                 precision: precision,
+                drawHierarchyInKeyWindow: drawHierarchyAfterScreenUpdates,
                 interfaceStyle: interfaceStyle,
                 file: file,
                 testName: testName + "_" + deviceSize.name,
@@ -48,6 +57,7 @@ open class SnapshotTestCase: XCTestCase {
         for component: UIHostingController<V>,
         config: ViewImageConfig,
         precision: Float,
+        drawHierarchyInKeyWindow: Bool,
         interfaceStyle: UIUserInterfaceStyle,
         file: StaticString,
         testName: String,
@@ -56,7 +66,7 @@ open class SnapshotTestCase: XCTestCase {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
-            as: .image(on: config, precision: precision, interfaceStyle: interfaceStyle),
+            as: .image(on: config, drawHierarchyInKeyWindow: drawHierarchyInKeyWindow, precision: precision, interfaceStyle: interfaceStyle),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
             addAttachment: { self.add($0) },
