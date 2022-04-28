@@ -7,12 +7,12 @@ extension UIScreen {
     }
 
     @objc dynamic var _bounds: CGRect {
-        let bounds = ViewImageConfig.global.size.map { CGRect(origin: .zero, size: $0) } ?? _bounds
+        let bounds = ViewImageConfig.global.size.map { CGRect(origin: .zero, size: $0) } ?? self._bounds
         return bounds
     }
 
     @objc dynamic var _scale: CGFloat {
-        _scale
+        self._scale
     }
 
     static func swizzle() {
