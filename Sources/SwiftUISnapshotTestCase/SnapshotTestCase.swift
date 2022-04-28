@@ -9,6 +9,10 @@ open class SnapshotTestCase: XCTestCase {
     open var devices: [ViewImageConfig] = [.iPhone13, .iPhone13Mini, .iPhone8, .iPhone8Plus, .iPhoneSE2]
 
     public func snapshot<V: View>(for component: V, precision: Float = 1, colorScheme: ColorScheme = .light, file: StaticString = #file, testName: String = #function, line: UInt = #line) {
+        DispatchQueue.once {
+            UIScreen.swizzle()
+        }
+
         let view = component
             .environment(\.colorScheme, colorScheme)
             .preferredColorScheme(colorScheme)
@@ -25,6 +29,8 @@ open class SnapshotTestCase: XCTestCase {
         }
 
         devices.forEach { deviceSize in
+            ViewImageConfig.global = deviceSize
+
             let vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
             validateOrRecord(
                 for: vc,
