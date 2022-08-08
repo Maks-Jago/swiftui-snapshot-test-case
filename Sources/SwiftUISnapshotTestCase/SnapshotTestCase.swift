@@ -2,6 +2,7 @@ import Foundation
 import XCTest
 import SnapshotTesting
 @_exported import struct SnapshotTesting.ViewImageConfig
+@_exported import enum SnapshotTesting.RenderingMode
 import SwiftUI
 
 open class SnapshotTestCase: XCTestCase {
