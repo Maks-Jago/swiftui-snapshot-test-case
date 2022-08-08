@@ -9,11 +9,14 @@ open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
     open var devices: [ViewImageConfig] = [.iPhone13, .iPhone13Mini, .iPhone8, .iPhone8Plus, .iPhoneSE2]
 
+    public typealias OptionsForConfig = (ViewImageConfig) -> ViewImageConfig.Options
+
+    open var optionsFor: OptionsForConfig? = nil
+
     public func snapshot<V: View>(
         for component: V,
         renderingMode: RenderingMode = .snapshot(afterScreenUpdates: false),
         precision: Float = 1,
-//        drawHierarchyAfterScreenUpdates: Bool = false,
         colorScheme: ColorScheme = .light,
         file: StaticString = #file,
         testName: String = #function,
@@ -40,11 +43,16 @@ open class SnapshotTestCase: XCTestCase {
 
         devices.forEach { deviceSize in
             ViewImageConfig.global = deviceSize
+            var mutableDeviceSize = deviceSize
+
+            if let optionsFor = optionsFor {
+                mutableDeviceSize.options = optionsFor(deviceSize)
+            }
 
             let vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
             validateOrRecord(
                 for: vc,
-                config: deviceSize,
+                config: mutableDeviceSize,
                 precision: precision,
                 renderingMode: renderingMode,
                 interfaceStyle: interfaceStyle,
@@ -75,7 +83,6 @@ open class SnapshotTestCase: XCTestCase {
                 traits: config.traits,
                 interfaceStyle: interfaceStyle
             ),
-            //.image(on: config, drawHierarchyInKeyWindow: drawHierarchyInKeyWindow, precision: precision, interfaceStyle: interfaceStyle),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
             addAttachment: { self.add($0) },
