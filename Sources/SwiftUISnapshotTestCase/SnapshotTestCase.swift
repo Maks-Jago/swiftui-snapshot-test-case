@@ -9,10 +9,6 @@ open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
     open var devices: [ViewImageConfig] = [.iPhone13, .iPhone13Mini, .iPhone8, .iPhone8Plus, .iPhoneSE2]
 
-    public typealias OptionsForConfig = (ViewImageConfig) -> ViewImageConfig.Options
-
-    open var optionsFor: OptionsForConfig? = nil
-
     public func snapshot<V: View>(
         for component: V,
         renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
