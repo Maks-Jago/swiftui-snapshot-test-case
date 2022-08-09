@@ -15,7 +15,7 @@ open class SnapshotTestCase: XCTestCase {
 
     public func snapshot<V: View>(
         for component: V,
-        renderingMode: RenderingMode = .snapshot(afterScreenUpdates: false),
+        renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
         precision: Float = 1,
         colorScheme: ColorScheme = .light,
         file: StaticString = #file,
@@ -43,16 +43,28 @@ open class SnapshotTestCase: XCTestCase {
 
         devices.forEach { deviceSize in
             ViewImageConfig.global = deviceSize
-            var mutableDeviceSize = deviceSize
+            var vc: UIViewController = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
 
-            if let optionsFor = optionsFor {
-                mutableDeviceSize.options = optionsFor(deviceSize)
+            switch deviceSize.options {
+            case .navigationBarLargeTitle:
+                let navController = UINavigationController(rootViewController: vc)
+                navController.navigationItem.largeTitleDisplayMode = .always
+                navController.navigationBar.prefersLargeTitles = true
+                vc = navController
+
+            case .navigationBarInline:
+                let navController = UINavigationController(rootViewController: vc)
+                navController.navigationItem.largeTitleDisplayMode = .never
+                navController.navigationBar.prefersLargeTitles = false
+                vc = navController
+
+            default:
+                break
             }
 
-            let vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
             validateOrRecord(
                 for: vc,
-                config: mutableDeviceSize,
+                config: deviceSize,
                 precision: precision,
                 renderingMode: renderingMode,
                 interfaceStyle: interfaceStyle,
@@ -63,8 +75,8 @@ open class SnapshotTestCase: XCTestCase {
         }
     }
 
-    private func validateOrRecord<V: View>(
-        for component: UIHostingController<V>,
+    private func validateOrRecord(
+        for component: UIViewController,
         config: ViewImageConfig,
         precision: Float,
         renderingMode: RenderingMode,
