@@ -45,22 +45,26 @@ open class SnapshotTestCase: XCTestCase {
 
             switch deviceSize.options {
             case .navigationBarInline:
+                let hosting = UIHostingController(rootView: view)
+
                 vc = SnapshotNavigationController(
-                    rootViewController: UIHostingController(rootView: view),
+                    rootViewController: hosting,
                     insets: deviceSize.safeArea
                 )
 
-                vc.navigationItem.largeTitleDisplayMode = .never
-                vc.navigationController?.navigationBar.prefersLargeTitles = false
+                hosting.navigationItem.largeTitleDisplayMode = .never
+                hosting.navigationController?.navigationBar.prefersLargeTitles = false
 
             case .navigationBarLargeTitle:
+                let hosting = UIHostingController(rootView: view)
+
                 vc = SnapshotNavigationController(
                     rootViewController: UIHostingController(rootView: view),
                     insets: deviceSize.safeArea
                 )
 
-                vc.navigationItem.largeTitleDisplayMode = .always
-                vc.navigationController?.navigationBar.prefersLargeTitles = true
+                hosting.navigationItem.largeTitleDisplayMode = .always
+                hosting.navigationController?.navigationBar.prefersLargeTitles = true
 
             default:
                 vc = SnapshotHostingController(rootView: navView(rootView: view, options: deviceSize.options), insets: deviceSize.safeArea)
