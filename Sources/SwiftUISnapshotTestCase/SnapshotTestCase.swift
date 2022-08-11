@@ -50,6 +50,9 @@ open class SnapshotTestCase: XCTestCase {
                     insets: deviceSize.safeArea
                 )
 
+                vc.navigationItem.largeTitleDisplayMode = .never
+                vc.navigationController?.navigationBar.prefersLargeTitles = false
+
             case .navigationBarLargeTitle:
                 vc = SnapshotNavigationController(
                     rootViewController: UIHostingController(rootView: view),
