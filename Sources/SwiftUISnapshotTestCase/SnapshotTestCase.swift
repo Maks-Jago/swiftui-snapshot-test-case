@@ -67,7 +67,7 @@ open class SnapshotTestCase: XCTestCase {
                 hosting.navigationController?.navigationBar.prefersLargeTitles = true
 
             default:
-                vc = SnapshotHostingController(rootView: navView(rootView: view, options: deviceSize.options), insets: deviceSize.safeArea)
+                vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
             }
 
             validateOrRecord(
@@ -125,25 +125,6 @@ open class SnapshotTestCase: XCTestCase {
             testName: testName + "_\(size)",
             line: line
         )
-    }
-
-    @ViewBuilder
-    private func navView<R: View>(rootView: R, options: ViewImageConfig.Options) -> some View {
-        switch options {
-        case .navigationBarInline:
-            NavigationView {
-                rootView
-                    .navigationBarTitleDisplayMode(.inline)
-            }
-        case .navigationBarLargeTitle:
-            NavigationView {
-                rootView
-                    .navigationBarTitleDisplayMode(.large)
-            }
-
-        default:
-            rootView
-        }
     }
 
     private func validateOrRecord(
