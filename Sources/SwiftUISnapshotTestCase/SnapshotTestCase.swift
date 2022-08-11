@@ -59,7 +59,7 @@ open class SnapshotTestCase: XCTestCase {
                 let hosting = UIHostingController(rootView: view)
 
                 vc = SnapshotNavigationController(
-                    rootViewController: UIHostingController(rootView: view),
+                    rootViewController: hosting,
                     insets: deviceSize.safeArea
                 )
 
