@@ -20,7 +20,6 @@ open class SnapshotTestCase: XCTestCase {
         testName: String = #function,
         line: UInt = #line
     ) {
-        UIView.setAnimationsEnabled(false)
         DispatchQueue.once {
             UIScreen.swizzle()
         }
