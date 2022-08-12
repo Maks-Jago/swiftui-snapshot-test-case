@@ -40,6 +40,8 @@ open class SnapshotTestCase: XCTestCase {
         }
 
         devices.forEach { deviceSize in
+            ViewImageConfig.global = deviceSize
+
             var vc: UIViewController!
 
             switch deviceSize.options {
