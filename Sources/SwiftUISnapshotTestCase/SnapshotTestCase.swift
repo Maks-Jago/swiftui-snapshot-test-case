@@ -45,7 +45,7 @@ open class SnapshotTestCase: XCTestCase {
 
             switch deviceSize.options {
             case .navigationBarInline:
-                let hosting = UIHostingController(rootView: view)
+                let hosting = UIHostingController(rootView: view.navigationBarTitleDisplayMode(.inline))
 
                 vc = SnapshotNavigationController(
                     rootViewController: hosting,
@@ -56,7 +56,7 @@ open class SnapshotTestCase: XCTestCase {
                 hosting.navigationController?.navigationBar.prefersLargeTitles = false
 
             case .navigationBarLargeTitle:
-                let hosting = UIHostingController(rootView: view)
+                let hosting = UIHostingController(rootView: view.navigationBarTitleDisplayMode(.large))
 
                 vc = SnapshotNavigationController(
                     rootViewController: hosting,
