@@ -1,20 +1,11 @@
 {
   "pins" : [
     {
-      "identity" : "ios-snapshot-test-case",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/uber/ios-snapshot-test-case.git",
-      "state" : {
-        "revision" : "7b10770333a961be6e5a41c9ce04b8c6d3990126",
-        "version" : "8.0.0"
-      }
-    },
-    {
       "identity" : "swift-snapshot-testing",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/urlaunched-com/swift-snapshot-testing.git",
       "state" : {
-        "revision" : "e51bf5b1764c3a5c10c5952e2ca0c125c046254f"
+        "revision" : "5dceb7a7813cd124f3e4e66ce20fdadcacd3fec0"
       }
     }
   ],
