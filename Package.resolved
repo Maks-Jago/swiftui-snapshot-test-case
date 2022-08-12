@@ -5,7 +5,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/urlaunched-com/swift-snapshot-testing.git",
       "state" : {
-        "revision" : "4c1717243105e878521e75f1cd8f24bfc4a37248"
+        "revision" : "f27c58ca5126979162afd910ffc79bb193c4f201"
       }
     }
   ],
