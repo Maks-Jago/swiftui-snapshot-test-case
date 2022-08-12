@@ -20,6 +20,7 @@ open class SnapshotTestCase: XCTestCase {
         testName: String = #function,
         line: UInt = #line
     ) {
+        UIView.setAnimationsEnabled(false)
         DispatchQueue.once {
             UIScreen.swizzle()
         }
@@ -146,17 +147,14 @@ open class SnapshotTestCase: XCTestCase {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
-            as: .wait(
-                for: 1,
-                on: .image(
-                    on: config,
-                    renderingMode: renderingMode,
-                    precision: precision,
-                    subpixelThreshold: subpixelThreshold,
-                    png: png,
-                    traits: config.traits,
-                    interfaceStyle: interfaceStyle
-                )
+            as: .image(
+                on: config,
+                renderingMode: renderingMode,
+                precision: precision,
+                subpixelThreshold: subpixelThreshold,
+                png: png,
+                traits: config.traits,
+                interfaceStyle: interfaceStyle
             ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
@@ -165,6 +163,27 @@ open class SnapshotTestCase: XCTestCase {
             testName: testName,
             line: line
         )
+//        assertSnapshot(
+//            matching: component,
+//            as: .wait(
+//                for: 1,
+//                on: .image(
+//                    on: config,
+//                    renderingMode: renderingMode,
+//                    precision: precision,
+//                    subpixelThreshold: subpixelThreshold,
+//                    png: png,
+//                    traits: config.traits,
+//                    interfaceStyle: interfaceStyle
+//                )
+//            ),
+//            record: self.isRecording,
+//            snapshotDirectory: bundlePath,
+//            addAttachment: { self.add($0) },
+//            file: file,
+//            testName: testName,
+//            line: line
+//        )
     }
 
     private func validateOrRecord<V: View>(
