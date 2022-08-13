@@ -66,8 +66,8 @@ open class SnapshotTestCase: XCTestCase {
 //                container.view.addSubview(hosting.view)
 //                hosting.didMove(toParent: container)
 
-//                vc = UINavigationController(rootViewController: hosting)
-                vc = SnapshotNavigationController(rootViewController: hosting, insets: deviceSize.safeArea)
+                vc = UINavigationController(rootViewController: hosting)
+//                vc = SnapshotNavigationController(rootViewController: hosting, insets: deviceSize.safeArea)
 
 
 //                hosting.view?.frame = CGRect(
@@ -100,7 +100,8 @@ open class SnapshotTestCase: XCTestCase {
 //                    insets: deviceSize.safeArea
 //                )
 
-                vc = SnapshotNavigationController(rootViewController: hosting, insets: deviceSize.safeArea)
+//                vc = SnapshotNavigationController(rootViewController: hosting, insets: deviceSize.safeArea)
+                vc = UINavigationController(rootViewController: hosting)
 
 //                hosting.view?.frame = CGRect(
 //                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
@@ -118,7 +119,7 @@ open class SnapshotTestCase: XCTestCase {
                 hosting.navigationController?.navigationBar.prefersLargeTitles = true
 
             default:
-                vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
+                vc = UIHostingController(rootView: view) //SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
 //                vc.view?.frame = CGRect(
 //                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
 //                    size: CGSize(
