@@ -53,8 +53,17 @@ open class SnapshotTestCase: XCTestCase {
 
                 let hosting = SnapshotHostingController(rootView: view)//, insets: deviceSize.safeArea)
 
-                let container = UIViewController()
-                container.addChild(hosting)
+//                let container = UIViewController()
+//                container.addChild(hosting)
+
+//                vc = SnapshotNavigationController(
+//                    rootViewController: hosting,
+//                    insets: deviceSize.safeArea
+//                )
+//                container.view.addSubview(hosting.view)
+//                hosting.didMove(toParent: container)
+
+                vc = UINavigationController(rootViewController: hosting)
 
                 hosting.view?.frame = CGRect(
                     origin: CGPoint(x: safeArea.left, y: safeArea.top),
@@ -64,27 +73,26 @@ open class SnapshotTestCase: XCTestCase {
                     )
                 )
 
-//                vc = SnapshotNavigationController(
-//                    rootViewController: hosting,
-//                    insets: deviceSize.safeArea
-//                )
-                container.view.addSubview(hosting.view)
-                hosting.didMove(toParent: container)
+                NSLayoutConstraint.activate([
+                    hosting.view.topAnchor.constraint(equalTo: vc.view.topAnchor),
+                    hosting.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor),
+                    hosting.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor),
+                    hosting.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor),
+                ])
 
-                vc = UINavigationController(rootViewController: container)
 
-                container.navigationItem.title = hosting.navigationItem.title
-                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
-                container.navigationItem.rightBarButtonItems = hosting.navigationItem.rightBarButtonItems
+//                container.navigationItem.title = hosting.navigationItem.title
+//                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
+//                container.navigationItem.rightBarButtonItems = hosting.navigationItem.rightBarButtonItems
 
-                container.navigationItem.largeTitleDisplayMode = .never
-                container.navigationController?.navigationBar.prefersLargeTitles = false
+                hosting.navigationItem.largeTitleDisplayMode = .never
+                hosting.navigationController?.navigationBar.prefersLargeTitles = false
 
             case .navigationBarLargeTitle:
                 let hosting = SnapshotHostingController(rootView: view)
 
-                let container = UIViewController()
-                container.addChild(hosting)
+//                let container = UIViewController()
+//                container.addChild(hosting)
 
                 hosting.view?.frame = CGRect(
                     origin: CGPoint(x: safeArea.left, y: safeArea.top),
@@ -94,32 +102,39 @@ open class SnapshotTestCase: XCTestCase {
                     )
                 )
 
-                container.view.addSubview(hosting.view)
-                hosting.didMove(toParent: container)
+//                container.view.addSubview(hosting.view)
+//                hosting.didMove(toParent: container)
 
 //                vc = SnapshotNavigationController(
 //                    rootViewController: hosting,
 //                    insets: deviceSize.safeArea
 //                )
 
-                vc = UINavigationController(rootViewController: container)
+                vc = UINavigationController(rootViewController: hosting)
 
-                container.navigationItem.title = hosting.navigationItem.title
-                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
-                container.navigationItem.rightBarButtonItems = hosting.navigationItem.rightBarButtonItems
+//                container.navigationItem.title = hosting.navigationItem.title
+//                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
+//                container.navigationItem.rightBarButtonItems = hosting.navigationItem.rightBarButtonItems
 
-                container.navigationItem.largeTitleDisplayMode = .always
-                container.navigationController?.navigationBar.prefersLargeTitles = true
+                NSLayoutConstraint.activate([
+                    hosting.view.topAnchor.constraint(equalTo: vc.view.topAnchor),
+                    hosting.view.bottomAnchor.constraint(equalTo: vc.view.bottomAnchor),
+                    hosting.view.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor),
+                    hosting.view.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor),
+                ])
+
+                hosting.navigationItem.largeTitleDisplayMode = .always
+                hosting.navigationController?.navigationBar.prefersLargeTitles = true
 
             default:
                 vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
-                vc.view?.frame = CGRect(
-                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
-                    size: CGSize(
-                        width: size.width - (safeArea.left + safeArea.right),
-                        height: size.height - (safeArea.top + safeArea.bottom)
-                    )
-                )
+//                vc.view?.frame = CGRect(
+//                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
+//                    size: CGSize(
+//                        width: size.width - (safeArea.left + safeArea.right),
+//                        height: size.height - (safeArea.top + safeArea.bottom)
+//                    )
+//                )
             }
 
             validateOrRecord(
