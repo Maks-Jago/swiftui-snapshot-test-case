@@ -13,6 +13,7 @@ open class SnapshotTestCase: XCTestCase {
         for component: V,
         renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
         precision: Float = 1,
+        subpixelThreshold: UInt8 = 0,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
         file: StaticString = #file,
@@ -40,12 +41,33 @@ open class SnapshotTestCase: XCTestCase {
 
         devices.forEach { deviceSize in
             ViewImageConfig.global = deviceSize
-            let vc = SnapshotHostingController(rootView: navView(rootView: view, options: deviceSize.options), insets: deviceSize.safeArea)
+
+            var vc: UIViewController!
+
+            switch deviceSize.options {
+            case .navigationBarInline:
+                let hosting = UIHostingController(rootView: view)
+                vc = UINavigationController(rootViewController: hosting)
+
+                hosting.navigationItem.largeTitleDisplayMode = .never
+                hosting.navigationController?.navigationBar.prefersLargeTitles = false
+
+            case .navigationBarLargeTitle:
+                let hosting = UIHostingController(rootView: view)
+                vc = UINavigationController(rootViewController: hosting)
+
+                hosting.navigationItem.largeTitleDisplayMode = .always
+                hosting.navigationController?.navigationBar.prefersLargeTitles = true
+
+            default:
+                vc = UIHostingController(rootView: view)
+            }
 
             validateOrRecord(
                 for: vc,
                 config: deviceSize,
                 precision: precision,
+                subpixelThreshold: subpixelThreshold,
                 png: png,
                 renderingMode: renderingMode,
                 interfaceStyle: interfaceStyle,
@@ -61,6 +83,7 @@ open class SnapshotTestCase: XCTestCase {
         size: CGSize,
         renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
         precision: Float = 1,
+        subpixelThreshold: UInt8,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
         file: StaticString = #file,
@@ -90,6 +113,7 @@ open class SnapshotTestCase: XCTestCase {
             for: view,
             size: size,
             precision: precision,
+            subpixelThreshold: subpixelThreshold,
             png: png,
             renderingMode: renderingMode,
             interfaceStyle: interfaceStyle,
@@ -99,29 +123,11 @@ open class SnapshotTestCase: XCTestCase {
         )
     }
 
-    @ViewBuilder
-    private func navView<R: View>(rootView: R, options: ViewImageConfig.Options) -> some View {
-        switch options {
-        case .navigationBarInline:
-            NavigationView {
-                rootView
-                    .navigationBarTitleDisplayMode(.inline)
-            }
-        case .navigationBarLargeTitle:
-            NavigationView {
-                rootView
-                    .navigationBarTitleDisplayMode(.large)
-            }
-
-        default:
-            rootView
-        }
-    }
-
     private func validateOrRecord(
         for component: UIViewController,
         config: ViewImageConfig,
         precision: Float,
+        subpixelThreshold: UInt8,
         png: Bool,
         renderingMode: RenderingMode,
         interfaceStyle: UIUserInterfaceStyle,
@@ -132,13 +138,17 @@ open class SnapshotTestCase: XCTestCase {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
-            as: .image(
-                on: config,
-                renderingMode: renderingMode,
-                precision: precision,
-                png: png,
-                traits: config.traits,
-                interfaceStyle: interfaceStyle
+            as: .wait(
+                for: 0.34,
+                on: .image(
+                    on: config,
+                    renderingMode: renderingMode,
+                    precision: precision,
+                    subpixelThreshold: subpixelThreshold,
+                    png: png,
+                    traits: config.traits,
+                    interfaceStyle: interfaceStyle
+                )
             ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
@@ -153,6 +163,7 @@ open class SnapshotTestCase: XCTestCase {
         for component: V,
         size: CGSize,
         precision: Float,
+        subpixelThreshold: UInt8,
         png: Bool,
         renderingMode: RenderingMode,
         interfaceStyle: UIUserInterfaceStyle,
@@ -167,6 +178,7 @@ open class SnapshotTestCase: XCTestCase {
             as: .image(
                 renderingMode: renderingMode,
                 precision: precision,
+                subpixelThreshold: subpixelThreshold,
                 png: png,
                 layout: .fixed(width: size.width, height: size.height),
                 interfaceStyle: interfaceStyle
