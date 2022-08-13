@@ -84,7 +84,7 @@ open class SnapshotTestCase: XCTestCase {
                 hosting.navigationController?.navigationBar.prefersLargeTitles = false
 
             case .navigationBarLargeTitle:
-                let hosting = SnapshotHostingController(rootView: view)
+                let hosting = UIHostingController(rootView: view)
 
 //                let container = UIViewController()
 //                container.view.translatesAutoresizingMaskIntoConstraints = false
@@ -100,13 +100,13 @@ open class SnapshotTestCase: XCTestCase {
 
                 vc = UINavigationController(rootViewController: hosting)
 
-                hosting.view?.frame = CGRect(
-                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
-                    size: CGSize(
-                        width: size.width - (safeArea.left + safeArea.right),
-                        height: size.height - (safeArea.top + safeArea.bottom)
-                    )
-                )
+//                hosting.view?.frame = CGRect(
+//                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
+//                    size: CGSize(
+//                        width: size.width - (safeArea.left + safeArea.right),
+//                        height: size.height - (safeArea.top + safeArea.bottom)
+//                    )
+//                )
 
 //                container.navigationItem.title = hosting.navigationItem.title
 //                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
