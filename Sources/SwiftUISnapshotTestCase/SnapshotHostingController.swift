@@ -9,15 +9,17 @@ import Foundation
 import SwiftUI
 
 final class SnapshotHostingController<Content: View>: UIHostingController<Content> {
-    var insets: UIEdgeInsets
+//    var insets: UIEdgeInsets
 
-    init(rootView: Content, insets: UIEdgeInsets) {
-        self.insets = insets
+    override init(rootView: Content) { //, insets: UIEdgeInsets) {
+//        self.insets = insets
         super.init(rootView: rootView)
 
         let _class: AnyClass = view.classForCoder
-        let safeAreaInsets: @convention(block) (AnyObject) -> UIEdgeInsets = { [weak self] _ in
-            return self?.insets ?? .zero
+//        let safeAreaInsets: @convention(block) (AnyObject) -> UIEdgeInsets = { [weak self] _ in
+        let safeAreaInsets: @convention(block) (AnyObject) -> UIEdgeInsets = { _ in
+//            return self?.insets ?? .zero
+            return .zero
         }
 
         guard let method = class_getInstanceMethod(_class.self, #selector(getter: UIView.safeAreaInsets)) else {

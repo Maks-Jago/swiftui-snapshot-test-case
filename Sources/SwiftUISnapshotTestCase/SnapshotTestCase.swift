@@ -42,12 +42,23 @@ open class SnapshotTestCase: XCTestCase {
         devices.forEach { deviceSize in
             ViewImageConfig.global = deviceSize
 
+            let size = deviceSize.size ?? .zero
+            let safeArea = deviceSize.safeArea
+
             var vc: UIViewController!
 
             switch deviceSize.options {
             case .navigationBarInline:
 //                let hosting = UIHostingController(rootView: view.navigationBarTitleDisplayMode(.inline))
-                let hosting = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
+
+                let hosting = SnapshotHostingController(rootView: view)//, insets: deviceSize.safeArea)
+                hosting.view?.frame = CGRect(
+                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
+                    size: CGSize(
+                        width: size.width - (safeArea.left + safeArea.right),
+                        height: size.height - (safeArea.top + safeArea.bottom)
+                    )
+                )
 
 //                vc = SnapshotNavigationController(
 //                    rootViewController: hosting,
@@ -60,7 +71,14 @@ open class SnapshotTestCase: XCTestCase {
                 hosting.navigationController?.navigationBar.prefersLargeTitles = false
 
             case .navigationBarLargeTitle:
-                let hosting = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
+                let hosting = SnapshotHostingController(rootView: view)//, insets: deviceSize.safeArea)
+                hosting.view?.frame = CGRect(
+                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
+                    size: CGSize(
+                        width: size.width - (safeArea.left + safeArea.right),
+                        height: size.height - (safeArea.top + safeArea.bottom)
+                    )
+                )
 
 //                vc = SnapshotNavigationController(
 //                    rootViewController: hosting,
@@ -73,7 +91,14 @@ open class SnapshotTestCase: XCTestCase {
                 hosting.navigationController?.navigationBar.prefersLargeTitles = true
 
             default:
-                vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
+                vc = SnapshotHostingController(rootView: view)//, insets: deviceSize.safeArea)
+                vc.view?.frame = CGRect(
+                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
+                    size: CGSize(
+                        width: size.width - (safeArea.left + safeArea.right),
+                        height: size.height - (safeArea.top + safeArea.bottom)
+                    )
+                )
             }
 
             validateOrRecord(
