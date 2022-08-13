@@ -42,8 +42,8 @@ open class SnapshotTestCase: XCTestCase {
         devices.forEach { deviceSize in
             ViewImageConfig.global = deviceSize
 
-            let size = deviceSize.size ?? .zero
-            let safeArea = deviceSize.safeArea
+//            let size = deviceSize.size ?? .zero
+//            let safeArea = deviceSize.safeArea
 
             var vc: UIViewController!
 
@@ -51,7 +51,7 @@ open class SnapshotTestCase: XCTestCase {
             case .navigationBarInline:
 //                let hosting = UIHostingController(rootView: view.navigationBarTitleDisplayMode(.inline))
 
-                let hosting = SnapshotHostingController(rootView: view)//, insets: deviceSize.safeArea)
+                let hosting = UIHostingController(rootView: view)//, insets: deviceSize.safeArea)
 
 //                let container = UIViewController()
 //                container.view.translatesAutoresizingMaskIntoConstraints = false
@@ -66,15 +66,17 @@ open class SnapshotTestCase: XCTestCase {
 //                container.view.addSubview(hosting.view)
 //                hosting.didMove(toParent: container)
 
-                vc = UINavigationController(rootViewController: hosting)
+//                vc = UINavigationController(rootViewController: hosting)
+                vc = SnapshotNavigationController(rootViewController: hosting, insets: deviceSize.safeArea)
 
-                hosting.view?.frame = CGRect(
-                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
-                    size: CGSize(
-                        width: size.width - (safeArea.left + safeArea.right),
-                        height: size.height - (safeArea.top + safeArea.bottom)
-                    )
-                )
+
+//                hosting.view?.frame = CGRect(
+//                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
+//                    size: CGSize(
+//                        width: size.width - (safeArea.left + safeArea.right),
+//                        height: size.height - (safeArea.top + safeArea.bottom)
+//                    )
+//                )
 
 //                container.navigationItem.title = hosting.navigationItem.title
 //                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
@@ -98,7 +100,7 @@ open class SnapshotTestCase: XCTestCase {
 //                    insets: deviceSize.safeArea
 //                )
 
-                vc = UINavigationController(rootViewController: hosting)
+                vc = SnapshotNavigationController(rootViewController: hosting, insets: deviceSize.safeArea)
 
 //                hosting.view?.frame = CGRect(
 //                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
