@@ -53,9 +53,9 @@ open class SnapshotTestCase: XCTestCase {
 
                 let hosting = SnapshotHostingController(rootView: view)//, insets: deviceSize.safeArea)
 
-                let container = UIViewController()
-                container.view.translatesAutoresizingMaskIntoConstraints = false
-                container.addChild(hosting)
+//                let container = UIViewController()
+//                container.view.translatesAutoresizingMaskIntoConstraints = false
+//                container.addChild(hosting)
 //                container.view.frame = CGRect(origin: CGPoint(x: <#T##CGFloat#>, y: <#T##CGFloat#>), size: <#T##CGSize#>)
 
 
@@ -63,10 +63,10 @@ open class SnapshotTestCase: XCTestCase {
 //                    rootViewController: hosting,
 //                    insets: deviceSize.safeArea
 //                )
-                container.view.addSubview(hosting.view)
-                hosting.didMove(toParent: container)
+//                container.view.addSubview(hosting.view)
+//                hosting.didMove(toParent: container)
 
-                vc = UINavigationController(rootViewController: container)
+                vc = UINavigationController(rootViewController: hosting)
 
                 hosting.view?.frame = CGRect(
                     origin: CGPoint(x: safeArea.left, y: safeArea.top),
@@ -80,25 +80,25 @@ open class SnapshotTestCase: XCTestCase {
 //                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
 //                container.navigationItem.rightBarButtonItems = hosting.navigationItem.rightBarButtonItems
 
-                container.navigationItem.largeTitleDisplayMode = .never
-                container.navigationController?.navigationBar.prefersLargeTitles = false
+                hosting.navigationItem.largeTitleDisplayMode = .never
+                hosting.navigationController?.navigationBar.prefersLargeTitles = false
 
             case .navigationBarLargeTitle:
                 let hosting = SnapshotHostingController(rootView: view)
 
-                let container = UIViewController()
-                container.view.translatesAutoresizingMaskIntoConstraints = false
-                container.addChild(hosting)
-
-                container.view.addSubview(hosting.view)
-                hosting.didMove(toParent: container)
+//                let container = UIViewController()
+//                container.view.translatesAutoresizingMaskIntoConstraints = false
+//                container.addChild(hosting)
+//
+//                container.view.addSubview(hosting.view)
+//                hosting.didMove(toParent: container)
 
 //                vc = SnapshotNavigationController(
 //                    rootViewController: hosting,
 //                    insets: deviceSize.safeArea
 //                )
 
-                vc = UINavigationController(rootViewController: container)
+                vc = UINavigationController(rootViewController: hosting)
 
                 hosting.view?.frame = CGRect(
                     origin: CGPoint(x: safeArea.left, y: safeArea.top),
@@ -112,8 +112,8 @@ open class SnapshotTestCase: XCTestCase {
 //                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
 //                container.navigationItem.rightBarButtonItems = hosting.navigationItem.rightBarButtonItems
 
-                container.navigationItem.largeTitleDisplayMode = .always
-                container.navigationController?.navigationBar.prefersLargeTitles = true
+                hosting.navigationItem.largeTitleDisplayMode = .always
+                hosting.navigationController?.navigationBar.prefersLargeTitles = true
 
             default:
                 vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
