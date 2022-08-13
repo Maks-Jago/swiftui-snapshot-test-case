@@ -94,14 +94,6 @@ open class SnapshotTestCase: XCTestCase {
 //                let container = UIViewController()
 //                container.addChild(hosting)
 
-                hosting.view?.frame = CGRect(
-                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
-                    size: CGSize(
-                        width: size.width - (safeArea.left + safeArea.right),
-                        height: size.height - (safeArea.top + safeArea.bottom)
-                    )
-                )
-
 //                container.view.addSubview(hosting.view)
 //                hosting.didMove(toParent: container)
 
@@ -111,6 +103,14 @@ open class SnapshotTestCase: XCTestCase {
 //                )
 
                 vc = UINavigationController(rootViewController: hosting)
+
+                hosting.view?.frame = CGRect(
+                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
+                    size: CGSize(
+                        width: size.width - (safeArea.left + safeArea.right),
+                        height: size.height - (safeArea.top + safeArea.bottom)
+                    )
+                )
 
 //                container.navigationItem.title = hosting.navigationItem.title
 //                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
