@@ -73,8 +73,12 @@ open class SnapshotTestCase: XCTestCase {
 
                 vc = UINavigationController(rootViewController: container)
 
-                hosting.navigationItem.largeTitleDisplayMode = .never
-                hosting.navigationController?.navigationBar.prefersLargeTitles = false
+                container.navigationItem.title = hosting.navigationItem.title
+                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
+                container.navigationItem.rightBarButtonItems = hosting.navigationItem.rightBarButtonItems
+
+                container.navigationItem.largeTitleDisplayMode = .never
+                container.navigationController?.navigationBar.prefersLargeTitles = false
 
             case .navigationBarLargeTitle:
                 let hosting = SnapshotHostingController(rootView: view)
@@ -100,8 +104,12 @@ open class SnapshotTestCase: XCTestCase {
 
                 vc = UINavigationController(rootViewController: container)
 
-                hosting.navigationItem.largeTitleDisplayMode = .always
-                hosting.navigationController?.navigationBar.prefersLargeTitles = true
+                container.navigationItem.title = hosting.navigationItem.title
+                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
+                container.navigationItem.rightBarButtonItems = hosting.navigationItem.rightBarButtonItems
+
+                container.navigationItem.largeTitleDisplayMode = .always
+                container.navigationController?.navigationBar.prefersLargeTitles = true
 
             default:
                 vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
