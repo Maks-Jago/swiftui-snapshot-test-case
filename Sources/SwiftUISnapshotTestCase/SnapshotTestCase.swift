@@ -42,91 +42,25 @@ open class SnapshotTestCase: XCTestCase {
         devices.forEach { deviceSize in
             ViewImageConfig.global = deviceSize
 
-//            let size = deviceSize.size ?? .zero
-//            let safeArea = deviceSize.safeArea
-
             var vc: UIViewController!
 
             switch deviceSize.options {
             case .navigationBarInline:
-//                let hosting = UIHostingController(rootView: view.navigationBarTitleDisplayMode(.inline))
-
-                let hosting = UIHostingController(rootView: view)//, insets: deviceSize.safeArea)
-
-//                let container = UIViewController()
-//                container.view.translatesAutoresizingMaskIntoConstraints = false
-//                container.addChild(hosting)
-//                container.view.frame = CGRect(origin: CGPoint(x: <#T##CGFloat#>, y: <#T##CGFloat#>), size: <#T##CGSize#>)
-
-
-//                vc = SnapshotNavigationController(
-//                    rootViewController: hosting,
-//                    insets: deviceSize.safeArea
-//                )
-//                container.view.addSubview(hosting.view)
-//                hosting.didMove(toParent: container)
-
+                let hosting = UIHostingController(rootView: view)
                 vc = UINavigationController(rootViewController: hosting)
-//                vc = SnapshotNavigationController(rootViewController: hosting, insets: deviceSize.safeArea)
-
-
-//                hosting.view?.frame = CGRect(
-//                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
-//                    size: CGSize(
-//                        width: size.width - (safeArea.left + safeArea.right),
-//                        height: size.height - (safeArea.top + safeArea.bottom)
-//                    )
-//                )
-
-//                container.navigationItem.title = hosting.navigationItem.title
-//                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
-//                container.navigationItem.rightBarButtonItems = hosting.navigationItem.rightBarButtonItems
 
                 hosting.navigationItem.largeTitleDisplayMode = .never
                 hosting.navigationController?.navigationBar.prefersLargeTitles = false
 
             case .navigationBarLargeTitle:
                 let hosting = UIHostingController(rootView: view)
-
-//                let container = UIViewController()
-//                container.view.translatesAutoresizingMaskIntoConstraints = false
-//                container.addChild(hosting)
-//
-//                container.view.addSubview(hosting.view)
-//                hosting.didMove(toParent: container)
-
-//                vc = SnapshotNavigationController(
-//                    rootViewController: hosting,
-//                    insets: deviceSize.safeArea
-//                )
-
-//                vc = SnapshotNavigationController(rootViewController: hosting, insets: deviceSize.safeArea)
                 vc = UINavigationController(rootViewController: hosting)
-
-//                hosting.view?.frame = CGRect(
-//                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
-//                    size: CGSize(
-//                        width: size.width - (safeArea.left + safeArea.right),
-//                        height: size.height - (safeArea.top + safeArea.bottom)
-//                    )
-//                )
-
-//                container.navigationItem.title = hosting.navigationItem.title
-//                container.navigationItem.leftBarButtonItems = hosting.navigationItem.leftBarButtonItems
-//                container.navigationItem.rightBarButtonItems = hosting.navigationItem.rightBarButtonItems
 
                 hosting.navigationItem.largeTitleDisplayMode = .always
                 hosting.navigationController?.navigationBar.prefersLargeTitles = true
 
             default:
-                vc = UIHostingController(rootView: view) //SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
-//                vc.view?.frame = CGRect(
-//                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
-//                    size: CGSize(
-//                        width: size.width - (safeArea.left + safeArea.right),
-//                        height: size.height - (safeArea.top + safeArea.bottom)
-//                    )
-//                )
+                vc = UIHostingController(rootView: view)
             }
 
             validateOrRecord(
@@ -202,24 +136,6 @@ open class SnapshotTestCase: XCTestCase {
         line: UInt
     ) {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
-//        assertSnapshot(
-//            matching: component,
-//            as: .image(
-//                on: config,
-//                renderingMode: renderingMode,
-//                precision: precision,
-//                subpixelThreshold: subpixelThreshold,
-//                png: png,
-//                traits: config.traits,
-//                interfaceStyle: interfaceStyle
-//            ),
-//            record: self.isRecording,
-//            snapshotDirectory: bundlePath,
-//            addAttachment: { self.add($0) },
-//            file: file,
-//            testName: testName,
-//            line: line
-//        )
         assertSnapshot(
             matching: component,
             as: .wait(
