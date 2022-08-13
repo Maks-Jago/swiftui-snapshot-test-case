@@ -71,7 +71,7 @@ open class SnapshotTestCase: XCTestCase {
                 container.view.addSubview(hosting.view)
                 hosting.didMove(toParent: container)
 
-                vc = UINavigationController(rootViewController: hosting)
+                vc = UINavigationController(rootViewController: container)
 
                 hosting.navigationItem.largeTitleDisplayMode = .never
                 hosting.navigationController?.navigationBar.prefersLargeTitles = false
@@ -90,21 +90,15 @@ open class SnapshotTestCase: XCTestCase {
                     )
                 )
 
-                hosting.view?.frame = CGRect(
-                    origin: CGPoint(x: safeArea.left, y: safeArea.top),
-                    size: CGSize(
-                        width: size.width - (safeArea.left + safeArea.right),
-                        height: size.height - (safeArea.top + safeArea.bottom)
-                    )
-                )
-
+                container.view.addSubview(hosting.view)
+                hosting.didMove(toParent: container)
 
 //                vc = SnapshotNavigationController(
 //                    rootViewController: hosting,
 //                    insets: deviceSize.safeArea
 //                )
 
-                vc = UINavigationController(rootViewController: hosting)
+                vc = UINavigationController(rootViewController: container)
 
                 hosting.navigationItem.largeTitleDisplayMode = .always
                 hosting.navigationController?.navigationBar.prefersLargeTitles = true
