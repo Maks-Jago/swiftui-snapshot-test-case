@@ -139,7 +139,7 @@ open class SnapshotTestCase: XCTestCase {
         assertSnapshot(
             matching: component,
             as: .wait(
-                for: 0.6,
+                for: 0.34,
                 on: .image(
                     on: config,
                     renderingMode: renderingMode,
