@@ -83,7 +83,7 @@ open class SnapshotTestCase: XCTestCase {
         size: CGSize,
         renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
         precision: Float = 1,
-        subpixelThreshold: UInt8,
+        subpixelThreshold: UInt8 = 4,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
         file: StaticString = #file,
@@ -119,6 +119,49 @@ open class SnapshotTestCase: XCTestCase {
             interfaceStyle: interfaceStyle,
             file: file,
             testName: testName + "_\(size)",
+            line: line
+        )
+    }
+
+    public func snapshotSizeThatFits<V: View>(
+        for component: V,
+        renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
+        precision: Float = 1,
+        subpixelThreshold: UInt8 = 4,
+        png: Bool = false,
+        colorScheme: ColorScheme = .light,
+        file: StaticString = #file,
+        testName: String = #function,
+        line: UInt = #line
+    ) {
+        DispatchQueue.once {
+            UIScreen.swizzle()
+        }
+
+        let view = component
+            .environment(\.colorScheme, colorScheme)
+            .preferredColorScheme(colorScheme)
+
+        var interfaceStyle: UIUserInterfaceStyle {
+            switch colorScheme {
+            case .light:
+                return .light
+            case .dark:
+                return .dark
+            @unknown default:
+                return .light
+            }
+        }
+
+        validateOrRecordSizeThatFits(
+            for: view,
+            precision: precision,
+            subpixelThreshold: subpixelThreshold,
+            png: png,
+            renderingMode: renderingMode,
+            interfaceStyle: interfaceStyle,
+            file: file,
+            testName: testName,
             line: line
         )
     }
@@ -171,8 +214,9 @@ open class SnapshotTestCase: XCTestCase {
         testName: String,
         line: UInt
     ) {
-        let bundlePath = Bundle(for: type(of: self)).bundlePath
+        ViewImageConfig.global = .iPhone13
 
+        let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
             as: .image(
@@ -181,6 +225,39 @@ open class SnapshotTestCase: XCTestCase {
                 subpixelThreshold: subpixelThreshold,
                 png: png,
                 layout: .fixed(width: size.width, height: size.height),
+                interfaceStyle: interfaceStyle
+            ),
+            record: self.isRecording,
+            snapshotDirectory: bundlePath,
+            addAttachment: { self.add($0) },
+            file: file,
+            testName: testName,
+            line: line
+        )
+    }
+
+    private func validateOrRecordSizeThatFits<V: View>(
+        for component: V,
+        precision: Float,
+        subpixelThreshold: UInt8,
+        png: Bool,
+        renderingMode: RenderingMode,
+        interfaceStyle: UIUserInterfaceStyle,
+        file: StaticString,
+        testName: String,
+        line: UInt
+    ) {
+        ViewImageConfig.global = .iPhone13
+
+        let bundlePath = Bundle(for: type(of: self)).bundlePath
+        assertSnapshot(
+            matching: component,
+            as: .image(
+                renderingMode: renderingMode,
+                precision: precision,
+                subpixelThreshold: subpixelThreshold,
+                png: png,
+                layout: .sizeThatFits,
                 interfaceStyle: interfaceStyle
             ),
             record: self.isRecording,
