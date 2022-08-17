@@ -215,7 +215,7 @@ open class SnapshotTestCase: XCTestCase {
                 subpixelThreshold: subpixelThreshold,
                 png: png,
                 layout: .fixed(width: size.width, height: size.height),
-                traits: UITraitCollection(displayScale: 1),
+                traits: UITraitCollection(displayScale: 2),
                 interfaceStyle: interfaceStyle
             ),
             record: self.isRecording,
@@ -249,7 +249,7 @@ open class SnapshotTestCase: XCTestCase {
                     subpixelThreshold: subpixelThreshold,
                     png: png,
                     layout: .sizeThatFits,
-                    traits: UITraitCollection(displayScale: 1),
+                    traits: UITraitCollection(displayScale: 2),
                     interfaceStyle: interfaceStyle
                 )
             ),
