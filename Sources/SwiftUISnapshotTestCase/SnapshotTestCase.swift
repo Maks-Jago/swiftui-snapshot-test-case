@@ -90,10 +90,6 @@ open class SnapshotTestCase: XCTestCase {
         testName: String = #function,
         line: UInt = #line
     ) {
-        DispatchQueue.once {
-            UIScreen.swizzle()
-        }
-
         let view = component
             .environment(\.colorScheme, colorScheme)
             .preferredColorScheme(colorScheme)
@@ -134,10 +130,6 @@ open class SnapshotTestCase: XCTestCase {
         testName: String = #function,
         line: UInt = #line
     ) {
-        DispatchQueue.once {
-            UIScreen.swizzle()
-        }
-
         let view = component
             .environment(\.colorScheme, colorScheme)
             .preferredColorScheme(colorScheme)
@@ -214,8 +206,6 @@ open class SnapshotTestCase: XCTestCase {
         testName: String,
         line: UInt
     ) {
-        ViewImageConfig.global = .iPhone13
-
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
@@ -225,6 +215,7 @@ open class SnapshotTestCase: XCTestCase {
                 subpixelThreshold: subpixelThreshold,
                 png: png,
                 layout: .fixed(width: size.width, height: size.height),
+                traits: UITraitCollection(displayScale: 1),
                 interfaceStyle: interfaceStyle
             ),
             record: self.isRecording,
@@ -247,8 +238,6 @@ open class SnapshotTestCase: XCTestCase {
         testName: String,
         line: UInt
     ) {
-        ViewImageConfig.global = .iPhone13
-
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
@@ -258,6 +247,7 @@ open class SnapshotTestCase: XCTestCase {
                 subpixelThreshold: subpixelThreshold,
                 png: png,
                 layout: .sizeThatFits,
+                traits: UITraitCollection(displayScale: 1),
                 interfaceStyle: interfaceStyle
             ),
             record: self.isRecording,
