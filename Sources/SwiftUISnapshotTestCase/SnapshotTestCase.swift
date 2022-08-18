@@ -90,6 +90,32 @@ open class SnapshotTestCase: XCTestCase {
         testName: String = #function,
         line: UInt = #line
     ) {
+        snapshot(
+            for: component,
+            sizes: [size],
+            renderingMode: renderingMode,
+            precision: precision,
+            subpixelThreshold: subpixelThreshold,
+            png: png,
+            colorScheme: colorScheme,
+            file: file,
+            testName: testName,
+            line: line
+        )
+    }
+
+    public func snapshot<V: View>(
+        for component: V,
+        sizes: [CGSize],
+        renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
+        precision: Float = 1,
+        subpixelThreshold: UInt8 = 4,
+        png: Bool = false,
+        colorScheme: ColorScheme = .light,
+        file: StaticString = #file,
+        testName: String = #function,
+        line: UInt = #line
+    ) {
         let view = component
             .environment(\.colorScheme, colorScheme)
             .preferredColorScheme(colorScheme)
@@ -105,18 +131,20 @@ open class SnapshotTestCase: XCTestCase {
             }
         }
 
-        validateOrRecord(
-            for: view,
-            size: size,
-            precision: precision,
-            subpixelThreshold: subpixelThreshold,
-            png: png,
-            renderingMode: renderingMode,
-            interfaceStyle: interfaceStyle,
-            file: file,
-            testName: testName + "_\(size)",
-            line: line
-        )
+        sizes.forEach { size in
+            validateOrRecord(
+                for: view,
+                size: size,
+                precision: precision,
+                subpixelThreshold: subpixelThreshold,
+                png: png,
+                renderingMode: renderingMode,
+                interfaceStyle: interfaceStyle,
+                file: file,
+                testName: testName + "_\(size.width)x\(size.height)",
+                line: line
+            )
+        }
     }
 
     public func snapshotSizeThatFits<V: View>(
@@ -217,7 +245,7 @@ open class SnapshotTestCase: XCTestCase {
                     subpixelThreshold: subpixelThreshold,
                     png: png,
                     layout: .fixed(width: size.width, height: size.height),
-                    traits: UITraitCollection(displayScale: 2),
+                    traits: UITraitCollection(displayScale: 1),
                     interfaceStyle: interfaceStyle
                 )
             ),
@@ -252,7 +280,7 @@ open class SnapshotTestCase: XCTestCase {
                     subpixelThreshold: subpixelThreshold,
                     png: png,
                     layout: .sizeThatFits,
-                    traits: UITraitCollection(displayScale: 2),
+                    traits: UITraitCollection(displayScale: 1),
                     interfaceStyle: interfaceStyle
                 )
             ),
