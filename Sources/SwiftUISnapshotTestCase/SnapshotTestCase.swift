@@ -202,7 +202,7 @@ open class SnapshotTestCase: XCTestCase {
         assertSnapshot(
             matching: component,
             as: .wait(
-                for: 0.34,
+                for: 0.4,
                 on: .image(
                     on: config,
                     renderingMode: renderingMode,
@@ -238,7 +238,7 @@ open class SnapshotTestCase: XCTestCase {
         assertSnapshot(
             matching: component,
             as: .wait(
-                for: 0.34,
+                for: 0.4,
                 on: .image(
                     renderingMode: renderingMode,
                     precision: precision,
@@ -273,7 +273,7 @@ open class SnapshotTestCase: XCTestCase {
         assertSnapshot(
             matching: component,
             as: .wait(
-                for: 0.34,
+                for: 0.4,
                 on: .image(
                     renderingMode: renderingMode,
                     precision: precision,
