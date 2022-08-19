@@ -201,14 +201,17 @@ open class SnapshotTestCase: XCTestCase {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
-            as: .image(
-                on: config,
-                renderingMode: renderingMode,
-                precision: precision,
-                subpixelThreshold: subpixelThreshold,
-                png: png,
-                traits: config.traits,
-                interfaceStyle: interfaceStyle
+            as: .wait(
+                for: 0.4,
+                on: .image(
+                    on: config,
+                    renderingMode: renderingMode,
+                    precision: precision,
+                    subpixelThreshold: subpixelThreshold,
+                    png: png,
+                    traits: config.traits,
+                    interfaceStyle: interfaceStyle
+                )
             ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
@@ -234,14 +237,17 @@ open class SnapshotTestCase: XCTestCase {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
-            as: .image(
-                renderingMode: renderingMode,
-                precision: precision,
-                subpixelThreshold: subpixelThreshold,
-                png: png,
-                layout: .fixed(width: size.width, height: size.height),
-                traits: UITraitCollection(displayScale: 2),
-                interfaceStyle: interfaceStyle
+            as: .wait(
+                for: 0.4,
+                on: .image(
+                    renderingMode: renderingMode,
+                    precision: precision,
+                    subpixelThreshold: subpixelThreshold,
+                    png: png,
+                    layout: .fixed(width: size.width, height: size.height),
+                    traits: UITraitCollection(displayScale: 2),
+                    interfaceStyle: interfaceStyle
+                )
             ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
@@ -266,14 +272,17 @@ open class SnapshotTestCase: XCTestCase {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
-            as: .image(
-                renderingMode: renderingMode,
-                precision: precision,
-                subpixelThreshold: subpixelThreshold,
-                png: png,
-                layout: .sizeThatFits,
-                traits: UITraitCollection(displayScale: 2),
-                interfaceStyle: interfaceStyle
+            as: .wait(
+                for: 0.4,
+                on: .image(
+                    renderingMode: renderingMode,
+                    precision: precision,
+                    subpixelThreshold: subpixelThreshold,
+                    png: png,
+                    layout: .sizeThatFits,
+                    traits: UITraitCollection(displayScale: 2),
+                    interfaceStyle: interfaceStyle
+                )
             ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
