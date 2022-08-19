@@ -16,7 +16,7 @@ let package = Package(
     ],
     dependencies: [
 //        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", from: "2.2.2")
-        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", revision: "22c3f0f098249b9422879a78dc1e4c7032cd1b98")
+        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", revision: "4e5f1728d5c2cd3c351770d827285ecc9fc7b96b")
     ],
     targets: [
         .target(
