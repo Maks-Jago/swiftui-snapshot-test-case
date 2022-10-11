@@ -13,7 +13,7 @@ open class SnapshotTestCase: XCTestCase {
         for component: V,
         renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
         precision: Float = 1,
-        subpixelThreshold: UInt8 = 0,
+        perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
         file: StaticString = #file,
@@ -23,6 +23,8 @@ open class SnapshotTestCase: XCTestCase {
         DispatchQueue.once {
             UIScreen.swizzle()
         }
+
+        UIView.setAnimationsEnabled(false)
 
         let view = component
             .environment(\.colorScheme, colorScheme)
@@ -67,7 +69,7 @@ open class SnapshotTestCase: XCTestCase {
                 for: vc,
                 config: deviceSize,
                 precision: precision,
-                subpixelThreshold: subpixelThreshold,
+                perceptualPrecision: perceptualPrecision,
                 png: png,
                 renderingMode: renderingMode,
                 interfaceStyle: interfaceStyle,
@@ -83,7 +85,7 @@ open class SnapshotTestCase: XCTestCase {
         size: CGSize,
         renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
         precision: Float = 1,
-        subpixelThreshold: UInt8 = 4,
+        perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
         file: StaticString = #file,
@@ -95,7 +97,7 @@ open class SnapshotTestCase: XCTestCase {
             sizes: [size],
             renderingMode: renderingMode,
             precision: precision,
-            subpixelThreshold: subpixelThreshold,
+            perceptualPrecision: perceptualPrecision,
             png: png,
             colorScheme: colorScheme,
             file: file,
@@ -109,7 +111,7 @@ open class SnapshotTestCase: XCTestCase {
         sizes: [CGSize],
         renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
         precision: Float = 1,
-        subpixelThreshold: UInt8 = 4,
+        perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
         file: StaticString = #file,
@@ -136,7 +138,7 @@ open class SnapshotTestCase: XCTestCase {
                 for: view,
                 size: size,
                 precision: precision,
-                subpixelThreshold: subpixelThreshold,
+                perceptualPrecision: perceptualPrecision,
                 png: png,
                 renderingMode: renderingMode,
                 interfaceStyle: interfaceStyle,
@@ -151,7 +153,7 @@ open class SnapshotTestCase: XCTestCase {
         for component: V,
         renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
         precision: Float = 1,
-        subpixelThreshold: UInt8 = 4,
+        perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
         file: StaticString = #file,
@@ -176,7 +178,7 @@ open class SnapshotTestCase: XCTestCase {
         validateOrRecordSizeThatFits(
             for: view,
             precision: precision,
-            subpixelThreshold: subpixelThreshold,
+            perceptualPrecision: perceptualPrecision,
             png: png,
             renderingMode: renderingMode,
             interfaceStyle: interfaceStyle,
@@ -190,7 +192,7 @@ open class SnapshotTestCase: XCTestCase {
         for component: UIViewController,
         config: ViewImageConfig,
         precision: Float,
-        subpixelThreshold: UInt8,
+        perceptualPrecision: Float,
         png: Bool,
         renderingMode: RenderingMode,
         interfaceStyle: UIUserInterfaceStyle,
@@ -201,18 +203,28 @@ open class SnapshotTestCase: XCTestCase {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
-            as: .wait(
-                for: 0.4,
-                on: .image(
-                    on: config,
-                    renderingMode: renderingMode,
-                    precision: precision,
-                    subpixelThreshold: subpixelThreshold,
-                    png: png,
-                    traits: config.traits,
-                    interfaceStyle: interfaceStyle
-                )
+            as:
+            .image(
+                on: config,
+                renderingMode: renderingMode,
+                precision: precision,
+                perceptualPrecision: perceptualPrecision,
+                png: png,
+                traits: config.traits,
+                interfaceStyle: interfaceStyle
             ),
+//                    .wait(
+//                for: 0.4,
+//                on: .image(
+//                    on: config,
+//                    renderingMode: renderingMode,
+//                    precision: precision,
+//                    perceptualPrecision: perceptualPrecision,
+//                    png: png,
+//                    traits: config.traits,
+//                    interfaceStyle: interfaceStyle
+//                )
+//            ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
             addAttachment: { self.add($0) },
@@ -226,7 +238,7 @@ open class SnapshotTestCase: XCTestCase {
         for component: V,
         size: CGSize,
         precision: Float,
-        subpixelThreshold: UInt8,
+        perceptualPrecision: Float,
         png: Bool,
         renderingMode: RenderingMode,
         interfaceStyle: UIUserInterfaceStyle,
@@ -237,17 +249,19 @@ open class SnapshotTestCase: XCTestCase {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
-            as: .wait(
-                for: 0.4,
-                on: .image(
+            as:
+//                    .wait(
+//                for: 0.4,
+//                on:
+                        .image(
                     renderingMode: renderingMode,
                     precision: precision,
-                    subpixelThreshold: subpixelThreshold,
+                    perceptualPrecision: perceptualPrecision,
                     png: png,
                     layout: .fixed(width: size.width, height: size.height),
                     traits: UITraitCollection(displayScale: 2),
                     interfaceStyle: interfaceStyle
-                )
+//                )
             ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
@@ -261,7 +275,7 @@ open class SnapshotTestCase: XCTestCase {
     private func validateOrRecordSizeThatFits<V: View>(
         for component: V,
         precision: Float,
-        subpixelThreshold: UInt8,
+        perceptualPrecision: Float,
         png: Bool,
         renderingMode: RenderingMode,
         interfaceStyle: UIUserInterfaceStyle,
@@ -272,17 +286,19 @@ open class SnapshotTestCase: XCTestCase {
         let bundlePath = Bundle(for: type(of: self)).bundlePath
         assertSnapshot(
             matching: component,
-            as: .wait(
-                for: 0.4,
-                on: .image(
+            as:
+//                    .wait(
+//                for: 0.4,
+//                on:
+                        .image(
                     renderingMode: renderingMode,
                     precision: precision,
-                    subpixelThreshold: subpixelThreshold,
+                    perceptualPrecision: perceptualPrecision,
                     png: png,
                     layout: .sizeThatFits,
                     traits: UITraitCollection(displayScale: 2),
                     interfaceStyle: interfaceStyle
-                )
+//                )
             ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,

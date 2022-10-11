@@ -1,20 +1,11 @@
 {
   "pins" : [
     {
-      "identity" : "snapkit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SnapKit/SnapKit.git",
-      "state" : {
-        "revision" : "f222cbdf325885926566172f6f5f06af95473158",
-        "version" : "5.6.0"
-      }
-    },
-    {
       "identity" : "swift-snapshot-testing",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/urlaunched-com/swift-snapshot-testing.git",
       "state" : {
-        "revision" : "bf374fdc1b90caae44539914dc23658b41890b27"
+        "revision" : "ce4469dd0e4af935f8fe6a93fe210aff6162c6d2"
       }
     }
   ],
