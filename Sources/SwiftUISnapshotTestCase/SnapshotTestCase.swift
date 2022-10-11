@@ -24,7 +24,7 @@ open class SnapshotTestCase: XCTestCase {
             UIScreen.swizzle()
         }
 
-//        UIView.setAnimationsEnabled(false)
+        UIView.setAnimationsEnabled(false)
 
         let view = component
             .environment(\.colorScheme, colorScheme)
