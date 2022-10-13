@@ -2,17 +2,19 @@ import Foundation
 import UIKit
 
 extension UIScreen {
+    private static var config: () -> ViewImageConfig = { ViewImageConfig.global }
+
     @objc dynamic var swizzledTraitCollection: UITraitCollection {
-        ViewImageConfig.global.traits
+        Self.config().traits
     }
 
     @objc dynamic var swizzledBounds: CGRect {
-        let bounds = ViewImageConfig.global.size.map { CGRect(origin: .zero, size: $0) } ?? .zero
+        let bounds = Self.config().size.map { CGRect(origin: .zero, size: $0) } ?? .zero
         return bounds
     }
 
     @objc dynamic var swizzledScale: CGFloat {
-        ViewImageConfig.global.traits.displayScale
+        Self.config().traits.displayScale
     }
 
     static func swizzle() {
