@@ -24,7 +24,7 @@ extension UIScreen {
     @objc private dynamic var swizzledNativeBounds: CGRect {
         CGRect(
             origin: .zero,
-            size: CGSize(width: swizzledBounds.width * swizzledScale, height: swizzledBounds.height * swizzledScale)
+            size: CGSize(width: swizzledBounds.width * swizzledNativeScale, height: swizzledBounds.height * swizzledNativeScale)
         )
     }
 
