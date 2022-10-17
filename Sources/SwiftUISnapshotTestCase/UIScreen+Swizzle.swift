@@ -21,11 +21,20 @@ extension UIScreen {
         Self.config().nativeScale
     }
 
+    @objc private dynamic var swizzledNativeBounds: CGRect {
+        CGRect(
+            origin: .zero,
+            size: CGSize(width: swizzledBounds.width * swizzledScale, height: swizzledBounds.height * swizzledScale)
+        )
+    }
+
+
     static func swizzle() {
         exchange(#selector(getter: UIScreen.traitCollection), #selector(getter: UIScreen.swizzledTraitCollection))
         exchange(#selector(getter: UIScreen.bounds), #selector(getter: UIScreen.swizzledBounds))
         exchange(#selector(getter: UIScreen.scale), #selector(getter: UIScreen.swizzledScale))
         exchange(#selector(getter: UIScreen.nativeScale), #selector(getter: UIScreen.swizzledNativeScale))
+        exchange(#selector(getter: UIScreen.nativeBounds), #selector(getter: UIScreen.swizzledNativeBounds))
     }
 
     private static func exchange(_ sel1: Selector, _ self2: Selector) {
