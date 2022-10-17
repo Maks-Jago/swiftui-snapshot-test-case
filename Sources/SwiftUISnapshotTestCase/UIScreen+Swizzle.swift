@@ -4,23 +4,28 @@ import UIKit
 extension UIScreen {
     private static var config: () -> ViewImageConfig = { ViewImageConfig.global }
 
-    @objc dynamic var swizzledTraitCollection: UITraitCollection {
+    @objc private dynamic var swizzledTraitCollection: UITraitCollection {
         Self.config().traits
     }
 
-    @objc dynamic var swizzledBounds: CGRect {
+    @objc private dynamic var swizzledBounds: CGRect {
         let bounds = Self.config().size.map { CGRect(origin: .zero, size: $0) } ?? .zero
         return bounds
     }
 
-    @objc dynamic var swizzledScale: CGFloat {
+    @objc private dynamic var swizzledScale: CGFloat {
         Self.config().traits.displayScale
+    }
+
+    @objc private dynamic var swizzledNativeScale: CGFloat {
+        Self.config().nativeScale
     }
 
     static func swizzle() {
         exchange(#selector(getter: UIScreen.traitCollection), #selector(getter: UIScreen.swizzledTraitCollection))
         exchange(#selector(getter: UIScreen.bounds), #selector(getter: UIScreen.swizzledBounds))
         exchange(#selector(getter: UIScreen.scale), #selector(getter: UIScreen.swizzledScale))
+        exchange(#selector(getter: UIScreen.nativeScale), #selector(getter: UIScreen.swizzledNativeScale))
     }
 
     private static func exchange(_ sel1: Selector, _ self2: Selector) {
