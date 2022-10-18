@@ -11,8 +11,8 @@ open class SnapshotTestCase: XCTestCase {
 
     public func snapshot<V: View>(
         for component: V,
-        renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
-        precision: Float = 1,
+        renderingMode: RenderingMode = .drawHierarchy(afterScreenUpdates: true),
+        precision: Float = 0.99,
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
@@ -49,8 +49,6 @@ open class SnapshotTestCase: XCTestCase {
 
             switch deviceSize.options {
             case .navigationBarInline:
-//                let hosting = SnapshotHostingController(rootView: view, insets: .zero)
-//                vc = SnapshotNavigationController(rootViewController: hosting, insets: .zero)
                 let hosting = UIHostingController(rootView: view)
                 vc = UINavigationController(rootViewController: hosting)
 
@@ -58,8 +56,6 @@ open class SnapshotTestCase: XCTestCase {
                 hosting.navigationController?.navigationBar.prefersLargeTitles = false
 
             case .navigationBarLargeTitle:
-//                let hosting = SnapshotHostingController(rootView: view, insets: .zero)
-//                vc = SnapshotNavigationController(rootViewController: hosting, insets: .zero)
                 let hosting = UIHostingController(rootView: view)
                 vc = UINavigationController(rootViewController: hosting)
 
@@ -68,8 +64,6 @@ open class SnapshotTestCase: XCTestCase {
 
             default:
                 vc = UIHostingController(rootView: view)
-
-//                vc = SnapshotHostingController(rootView: view, insets: deviceSize.safeArea)
             }
 
             validateOrRecord(
@@ -91,7 +85,7 @@ open class SnapshotTestCase: XCTestCase {
         for component: V,
         size: CGSize,
         renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
-        precision: Float = 1,
+        precision: Float = 0.99,
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
@@ -116,8 +110,8 @@ open class SnapshotTestCase: XCTestCase {
     public func snapshot<V: View>(
         for component: V,
         sizes: [CGSize],
-        renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
-        precision: Float = 1,
+        renderingMode: RenderingMode = .drawHierarchy(afterScreenUpdates: true),
+        precision: Float = 0.99,
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
@@ -158,8 +152,8 @@ open class SnapshotTestCase: XCTestCase {
 
     public func snapshotSizeThatFits<V: View>(
         for component: V,
-        renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
-        precision: Float = 1,
+        renderingMode: RenderingMode = .drawHierarchy(afterScreenUpdates: true),
+        precision: Float = 0.99,
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
