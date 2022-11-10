@@ -16,6 +16,7 @@ open class SnapshotTestCase: XCTestCase {
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
+        delayForLayout: TimeInterval,
         file: StaticString = #file,
         testName: String = #function,
         line: UInt = #line
@@ -74,6 +75,7 @@ open class SnapshotTestCase: XCTestCase {
                 png: png,
                 renderingMode: renderingMode,
                 interfaceStyle: interfaceStyle,
+                delayForLayout: delayForLayout,
                 file: file,
                 testName: testName + "_" + deviceSize.name,
                 line: line
@@ -89,6 +91,7 @@ open class SnapshotTestCase: XCTestCase {
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
+        delayForLayout: TimeInterval,
         file: StaticString = #file,
         testName: String = #function,
         line: UInt = #line
@@ -101,6 +104,7 @@ open class SnapshotTestCase: XCTestCase {
             perceptualPrecision: perceptualPrecision,
             png: png,
             colorScheme: colorScheme,
+            delayForLayout: delayForLayout,
             file: file,
             testName: testName,
             line: line
@@ -115,6 +119,7 @@ open class SnapshotTestCase: XCTestCase {
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
+        delayForLayout: TimeInterval,
         file: StaticString = #file,
         testName: String = #function,
         line: UInt = #line
@@ -143,6 +148,7 @@ open class SnapshotTestCase: XCTestCase {
                 png: png,
                 renderingMode: renderingMode,
                 interfaceStyle: interfaceStyle,
+                delayForLayout: delayForLayout,
                 file: file,
                 testName: testName + "_\(size.width)x\(size.height)",
                 line: line
@@ -157,6 +163,7 @@ open class SnapshotTestCase: XCTestCase {
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
+        delayForLayout: TimeInterval,
         file: StaticString = #file,
         testName: String = #function,
         line: UInt = #line
@@ -183,6 +190,7 @@ open class SnapshotTestCase: XCTestCase {
             png: png,
             renderingMode: renderingMode,
             interfaceStyle: interfaceStyle,
+            delayForLayout: delayForLayout,
             file: file,
             testName: testName,
             line: line
@@ -197,6 +205,7 @@ open class SnapshotTestCase: XCTestCase {
         png: Bool,
         renderingMode: RenderingMode,
         interfaceStyle: UIUserInterfaceStyle,
+        delayForLayout: TimeInterval,
         file: StaticString,
         testName: String,
         line: UInt
@@ -211,7 +220,8 @@ open class SnapshotTestCase: XCTestCase {
                 perceptualPrecision: perceptualPrecision,
                 png: png,
                 traits: config.traits,
-                interfaceStyle: interfaceStyle
+                interfaceStyle: interfaceStyle,
+                delayForLayout: delayForLayout
             ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
@@ -230,6 +240,7 @@ open class SnapshotTestCase: XCTestCase {
         png: Bool,
         renderingMode: RenderingMode,
         interfaceStyle: UIUserInterfaceStyle,
+        delayForLayout: TimeInterval,
         file: StaticString,
         testName: String,
         line: UInt
@@ -244,7 +255,8 @@ open class SnapshotTestCase: XCTestCase {
                 png: png,
                 layout: .fixed(width: size.width, height: size.height),
                 traits: UITraitCollection(displayScale: 2),
-                interfaceStyle: interfaceStyle
+                interfaceStyle: interfaceStyle,
+                delayForLayout: delayForLayout
             ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
@@ -262,6 +274,7 @@ open class SnapshotTestCase: XCTestCase {
         png: Bool,
         renderingMode: RenderingMode,
         interfaceStyle: UIUserInterfaceStyle,
+        delayForLayout: TimeInterval,
         file: StaticString,
         testName: String,
         line: UInt
@@ -276,7 +289,8 @@ open class SnapshotTestCase: XCTestCase {
                 png: png,
                 layout: .sizeThatFits,
                 traits: UITraitCollection(displayScale: 2),
-                interfaceStyle: interfaceStyle
+                interfaceStyle: interfaceStyle,
+                delayForLayout: delayForLayout
             ),
             record: self.isRecording,
             snapshotDirectory: bundlePath,
