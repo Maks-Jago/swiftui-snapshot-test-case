@@ -15,8 +15,8 @@ let package = Package(
             targets: ["SwiftUISnapshotTestCase"]),
     ],
     dependencies: [
-//        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", from: "2.3.5")
-        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", revision: "423e38673ac723e975b890cd86b99922e8de0ad4")
+        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", from: "2.3.6")
+//        .package(url: "https://github.com/urlaunched-com/swift-snapshot-testing.git", revision: "423e38673ac723e975b890cd86b99922e8de0ad4")
     ],
     targets: [
         .target(
