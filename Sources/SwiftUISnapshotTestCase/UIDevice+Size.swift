@@ -12,6 +12,7 @@ public enum DeviceSize: String, CaseIterable {
     case iPhones8Plus_7Plus_6SPlus
     case iPhonesSE2_8_7_6S
     case iPhoneSEAndiPodTouch7
+    case iPhone15Pro
 
     // iPads:
     case iPadPro12Point9Inch
@@ -44,6 +45,8 @@ public enum DeviceSize: String, CaseIterable {
             return .init(width: 375, height: 667)
         case .iPhoneSEAndiPodTouch7:
             return .init(width: 320, height: 568)
+        case .iPhone15Pro:
+            return .init(width: 393, height: 852)
 
             // iPads:
         case .iPadPro12Point9Inch:
@@ -67,7 +70,7 @@ public enum DeviceSize: String, CaseIterable {
 
     var scaleFactor: CGFloat {
         switch self {
-        case .iPhone13ProMaxAndiPhone12ProMax, .iPhone11ProMaxAndXSMax, .iPhones13Pro_13_12Pro_12, .iPhone13miniAnd12mini, .iPhones11Pro_XS_X, .iPhones8Plus_7Plus_6SPlus:
+        case .iPhone13ProMaxAndiPhone12ProMax, .iPhone11ProMaxAndXSMax, .iPhones13Pro_13_12Pro_12, .iPhone13miniAnd12mini, .iPhones11Pro_XS_X, .iPhones8Plus_7Plus_6SPlus, .iPhone15Pro:
             return 3.0
 
         case .iPhone11AndiPhoneXR, .iPhonesSE2_8_7_6S, .iPhoneSEAndiPodTouch7:
@@ -85,7 +88,7 @@ public enum DeviceSize: String, CaseIterable {
         CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
     }
 
-    public static var allPhones: [DeviceSize] = [.iPhone13ProMaxAndiPhone12ProMax, .iPhone11ProMaxAndXSMax, .iPhones13Pro_13_12Pro_12, .iPhone13miniAnd12mini, .iPhone11AndiPhoneXR, .iPhones11Pro_XS_X, .iPhones8Plus_7Plus_6SPlus, .iPhonesSE2_8_7_6S, .iPhoneSEAndiPodTouch7]
+    public static var allPhones: [DeviceSize] = [.iPhone13ProMaxAndiPhone12ProMax, .iPhone11ProMaxAndXSMax, .iPhones13Pro_13_12Pro_12, .iPhone13miniAnd12mini, .iPhone11AndiPhoneXR, .iPhones11Pro_XS_X, .iPhones8Plus_7Plus_6SPlus, .iPhonesSE2_8_7_6S, .iPhoneSEAndiPodTouch7, .iPhone15Pro]
 
     public static var allPads: [DeviceSize] = [.iPadPro12Point9Inch, .iPadPro11Inch, .iPadAir10Point9Inch, .iPadAirAndPro10Point5Inch, .iPad10Point2Inch, .iPadProAndAir9Point7Inch, .iPadMini8Point3Inch, .iPadMini7Point9Inch]
 }
