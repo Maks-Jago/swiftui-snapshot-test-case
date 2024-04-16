@@ -17,7 +17,7 @@ open class SnapshotTestCase: XCTestCase {
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
-        delayForLayout: TimeInterval,
+        delayForLayout: TimeInterval = 0,
         file: StaticString = #file,
         testName: String = #function,
         line: UInt = #line
@@ -92,7 +92,7 @@ open class SnapshotTestCase: XCTestCase {
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
-        delayForLayout: TimeInterval,
+        delayForLayout: TimeInterval = 0,
         file: StaticString = #file,
         testName: String = #function,
         line: UInt = #line
@@ -120,7 +120,7 @@ open class SnapshotTestCase: XCTestCase {
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
-        delayForLayout: TimeInterval,
+        delayForLayout: TimeInterval = 0,
         file: StaticString = #file,
         testName: String = #function,
         line: UInt = #line
@@ -164,7 +164,7 @@ open class SnapshotTestCase: XCTestCase {
         perceptualPrecision: Float = 0.98,
         png: Bool = false,
         colorScheme: ColorScheme = .light,
-        delayForLayout: TimeInterval,
+        delayForLayout: TimeInterval = 0,
         file: StaticString = #file,
         testName: String = #function,
         line: UInt = #line
