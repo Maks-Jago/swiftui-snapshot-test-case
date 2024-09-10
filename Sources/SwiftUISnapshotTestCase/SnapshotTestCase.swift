@@ -23,7 +23,7 @@ open class SnapshotTestCase: XCTestCase {
         UIApplication.shared.windows.first?.layer.speed = 100
     }
 
-    func snapshot(
+    public func snapshot(
         for view: some View,
         precision: Float = 0.99,
         perceptualPrecision: Float = 0.98,
