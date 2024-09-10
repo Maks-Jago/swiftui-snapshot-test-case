@@ -2,303 +2,52 @@ import Foundation
 import XCTest
 import SnapshotTesting
 @_exported import struct SnapshotTesting.ViewImageConfig
-@_exported import enum SnapshotTesting.RenderingMode
 import SwiftUI
 
 open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
-//    open var devices: [ViewImageConfig] = [.iPhone13, .iPhone13Mini, .iPhone8, .iPhone8Plus, .iPhoneSE2]
-    open var devices: [ViewImageConfig] = [.iPhone15Pro]
+    open var devices: [ViewImageConfig] = [.iPhone13Pro]
+    public static var deviceReference: String = "iPhone 15 Pro"
 
-    public func snapshot<V: View>(
-        for component: V,
-        renderingMode: RenderingMode = .drawHierarchy(afterScreenUpdates: true),
-        precision: Float = 0.99,
-        perceptualPrecision: Float = 0.98,
-        png: Bool = false,
-        colorScheme: ColorScheme = .light,
-        delayForLayout: TimeInterval = 0,
-        file: StaticString = #file,
-        testName: String = #function,
-        line: UInt = #line
-    ) {
-        DispatchQueue.once {
-            UIScreen.swizzle()
-            UIScrollView.swizzle()
+    private var recordMode: SnapshotTestingConfiguration.Record {
+        isRecording ? .all : .missing
+    }
+
+    open override class func setUp() {
+        let device = UIDevice.current.name
+        if device != deviceReference {
+            fatalError("Switch to using iPhone 15 Pro for these tests.")
         }
 
         UIView.setAnimationsEnabled(false)
-
-        let view = component
-            .environment(\.colorScheme, colorScheme)
-            .preferredColorScheme(colorScheme)
-
-        var interfaceStyle: UIUserInterfaceStyle {
-            switch colorScheme {
-            case .light:
-                return .light
-            case .dark:
-                return .dark
-            @unknown default:
-                return .light
-            }
-        }
-
-        devices.forEach { deviceSize in
-            ViewImageConfig.global = deviceSize
-
-            var vc: UIViewController!
-
-            switch deviceSize.options {
-            case .navigationBarInline:
-                let hosting = UIHostingController(rootView: view)
-                vc = UINavigationController(rootViewController: hosting)
-
-                hosting.navigationItem.largeTitleDisplayMode = .never
-                hosting.navigationController?.navigationBar.prefersLargeTitles = false
-
-            case .navigationBarLargeTitle:
-                let hosting = UIHostingController(rootView: view)
-                vc = UINavigationController(rootViewController: hosting)
-
-                hosting.navigationItem.largeTitleDisplayMode = .always
-                hosting.navigationController?.navigationBar.prefersLargeTitles = true
-
-            default:
-                vc = UIHostingController(rootView: view)
-            }
-
-            validateOrRecord(
-                for: vc,
-                config: deviceSize,
-                precision: precision,
-                perceptualPrecision: perceptualPrecision,
-                png: png,
-                renderingMode: renderingMode,
-                interfaceStyle: interfaceStyle,
-                delayForLayout: delayForLayout,
-                file: file,
-                testName: testName + "_" + deviceSize.name,
-                line: line
-            )
-        }
+        UIApplication.shared.windows.first?.layer.speed = 100
     }
 
-    public func snapshot<V: View>(
-        for component: V,
-        size: CGSize,
-        renderingMode: RenderingMode = .snapshot(afterScreenUpdates: true),
+    func snapshot(
+        for view: some View,
         precision: Float = 0.99,
         perceptualPrecision: Float = 0.98,
-        png: Bool = false,
-        colorScheme: ColorScheme = .light,
-        delayForLayout: TimeInterval = 0,
         file: StaticString = #file,
         testName: String = #function,
-        line: UInt = #line
+        line: UInt = #line,
+        column: UInt = #column
     ) {
-        snapshot(
-            for: component,
-            sizes: [size],
-            renderingMode: renderingMode,
-            precision: precision,
-            perceptualPrecision: perceptualPrecision,
-            png: png,
-            colorScheme: colorScheme,
-            delayForLayout: delayForLayout,
-            file: file,
-            testName: testName,
-            line: line
-        )
-    }
-
-    public func snapshot<V: View>(
-        for component: V,
-        sizes: [CGSize],
-        renderingMode: RenderingMode = .drawHierarchy(afterScreenUpdates: true),
-        precision: Float = 0.99,
-        perceptualPrecision: Float = 0.98,
-        png: Bool = false,
-        colorScheme: ColorScheme = .light,
-        delayForLayout: TimeInterval = 0,
-        file: StaticString = #file,
-        testName: String = #function,
-        line: UInt = #line
-    ) {
-        let view = component
-            .environment(\.colorScheme, colorScheme)
-            .preferredColorScheme(colorScheme)
-
-        var interfaceStyle: UIUserInterfaceStyle {
-            switch colorScheme {
-            case .light:
-                return .light
-            case .dark:
-                return .dark
-            @unknown default:
-                return .light
+        let vc = UIHostingController(rootView: view)
+        withSnapshotTesting(record: recordMode) {
+            for device in devices {
+                assertSnapshot(
+                    of: vc,
+                    as: .image(
+                        on: device,
+                        precision: precision,
+                        perceptualPrecision: perceptualPrecision
+                    ),
+                    file: file,
+                    testName: testName,
+                    line: line,
+                    column: column
+                )
             }
         }
-
-        sizes.forEach { size in
-            validateOrRecord(
-                for: view,
-                size: size,
-                precision: precision,
-                perceptualPrecision: perceptualPrecision,
-                png: png,
-                renderingMode: renderingMode,
-                interfaceStyle: interfaceStyle,
-                delayForLayout: delayForLayout,
-                file: file,
-                testName: testName + "_\(size.width)x\(size.height)",
-                line: line
-            )
-        }
-    }
-
-    public func snapshotSizeThatFits<V: View>(
-        for component: V,
-        renderingMode: RenderingMode = .drawHierarchy(afterScreenUpdates: true),
-        precision: Float = 0.99,
-        perceptualPrecision: Float = 0.98,
-        png: Bool = false,
-        colorScheme: ColorScheme = .light,
-        delayForLayout: TimeInterval = 0,
-        file: StaticString = #file,
-        testName: String = #function,
-        line: UInt = #line
-    ) {
-        let view = component
-            .environment(\.colorScheme, colorScheme)
-            .preferredColorScheme(colorScheme)
-
-        var interfaceStyle: UIUserInterfaceStyle {
-            switch colorScheme {
-            case .light:
-                return .light
-            case .dark:
-                return .dark
-            @unknown default:
-                return .light
-            }
-        }
-
-        validateOrRecordSizeThatFits(
-            for: view,
-            precision: precision,
-            perceptualPrecision: perceptualPrecision,
-            png: png,
-            renderingMode: renderingMode,
-            interfaceStyle: interfaceStyle,
-            delayForLayout: delayForLayout,
-            file: file,
-            testName: testName,
-            line: line
-        )
-    }
-
-    private func validateOrRecord(
-        for component: UIViewController,
-        config: ViewImageConfig,
-        precision: Float,
-        perceptualPrecision: Float,
-        png: Bool,
-        renderingMode: RenderingMode,
-        interfaceStyle: UIUserInterfaceStyle,
-        delayForLayout: TimeInterval,
-        file: StaticString,
-        testName: String,
-        line: UInt
-    ) {
-        let bundlePath = Bundle(for: type(of: self)).bundlePath
-        assertSnapshot(
-            matching: component,
-            as: .image(
-                on: config,
-                renderingMode: renderingMode,
-                precision: precision,
-                perceptualPrecision: perceptualPrecision,
-                png: png,
-                traits: config.traits,
-                interfaceStyle: interfaceStyle,
-                delayForLayout: delayForLayout
-            ),
-            record: self.isRecording,
-            snapshotDirectory: bundlePath,
-            addAttachment: { self.add($0) },
-            file: file,
-            testName: testName,
-            line: line
-        )
-    }
-
-    private func validateOrRecord<V: View>(
-        for component: V,
-        size: CGSize,
-        precision: Float,
-        perceptualPrecision: Float,
-        png: Bool,
-        renderingMode: RenderingMode,
-        interfaceStyle: UIUserInterfaceStyle,
-        delayForLayout: TimeInterval,
-        file: StaticString,
-        testName: String,
-        line: UInt
-    ) {
-        let bundlePath = Bundle(for: type(of: self)).bundlePath
-        assertSnapshot(
-            matching: component,
-            as: .image(
-                renderingMode: renderingMode,
-                precision: precision,
-                perceptualPrecision: perceptualPrecision,
-                png: png,
-                layout: .fixed(width: size.width, height: size.height),
-                traits: UITraitCollection(displayScale: 2),
-                interfaceStyle: interfaceStyle,
-                delayForLayout: delayForLayout
-            ),
-            record: self.isRecording,
-            snapshotDirectory: bundlePath,
-            addAttachment: { self.add($0) },
-            file: file,
-            testName: testName,
-            line: line
-        )
-    }
-
-    private func validateOrRecordSizeThatFits<V: View>(
-        for component: V,
-        precision: Float,
-        perceptualPrecision: Float,
-        png: Bool,
-        renderingMode: RenderingMode,
-        interfaceStyle: UIUserInterfaceStyle,
-        delayForLayout: TimeInterval,
-        file: StaticString,
-        testName: String,
-        line: UInt
-    ) {
-        let bundlePath = Bundle(for: type(of: self)).bundlePath
-        assertSnapshot(
-            matching: component,
-            as: .image(
-                renderingMode: renderingMode,
-                precision: precision,
-                perceptualPrecision: perceptualPrecision,
-                png: png,
-                layout: .sizeThatFits,
-                traits: UITraitCollection(displayScale: 2),
-                interfaceStyle: interfaceStyle,
-                delayForLayout: delayForLayout
-            ),
-            record: self.isRecording,
-            snapshotDirectory: bundlePath,
-            addAttachment: { self.add($0) },
-            file: file,
-            testName: testName,
-            line: line
-        )
     }
 }
