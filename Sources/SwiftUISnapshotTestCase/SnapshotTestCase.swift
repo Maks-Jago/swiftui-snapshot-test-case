@@ -25,7 +25,7 @@ open class SnapshotTestCase: XCTestCase {
             fatalError("Switch to using \(deviceReference) (\(osVersionReference) for these tests.")
         }
 
-        UIView.setAnimationsEnabled(false)
+//        UIView.setAnimationsEnabled(false)
         UIApplication.shared.windows.first?.layer.speed = 100
     }
 
