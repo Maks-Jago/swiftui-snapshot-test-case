@@ -26,7 +26,7 @@ open class SnapshotTestCase: XCTestCase {
         }
 
 //        UIView.setAnimationsEnabled(false)
-        UIApplication.shared.windows.first?.layer.speed = 100
+//        UIApplication.shared.windows.first?.layer.speed = 100
     }
 
     public func snapshot(
