@@ -16,7 +16,7 @@ open class SnapshotTestCase: XCTestCase {
 
     open override class func setUp() {
         let device = UIDevice.current.name
-        if device != deviceReference {
+        if !device.contains(deviceReference) {
             fatalError("Switch to using \(deviceReference) (\(osVersionReference) for these tests.")
         }
 
