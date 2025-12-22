@@ -13,6 +13,14 @@ open class SnapshotTestCase: XCTestCase {
     private var recordMode: SnapshotTestingConfiguration.Record {
         isRecording ? .all : .missing
     }
+    
+    private var shouldDrawHierarchyInKeyWindow: Bool = {
+        if #available(iOS 26, *) {
+            true
+        } else {
+            false
+        }
+    }()
 
     open override class func setUp() {
         let device = UIDevice.current.name
@@ -49,6 +57,7 @@ open class SnapshotTestCase: XCTestCase {
                             for: delayForLayout,
                             on: .image(
                                 on: device,
+                                drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                                 precision: precision,
                                 perceptualPrecision: perceptualPrecision
                             )
@@ -63,6 +72,7 @@ open class SnapshotTestCase: XCTestCase {
                         of: vc,
                         as: .image(
                             on: device,
+                            drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                             precision: precision,
                             perceptualPrecision: perceptualPrecision
                         ),
