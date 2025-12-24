@@ -6,9 +6,9 @@ import SwiftUI
 
 open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
-    public static var devices: [ViewImageConfig] = [.iPhone15Pro]
-    public static var deviceReference: String = "iPhone 15 Pro"
-    public static var osVersionReference: String = "17.5"
+    open var devices: [ViewImageConfig] = [.iPhone17Pro]
+    public static var deviceReference: String = "iPhone 17 Pro"
+    public static var osVersionReference: String = "26.2"
     
     private var recordMode: SnapshotTestingConfiguration.Record {
         isRecording ? .all : .missing
@@ -52,7 +52,7 @@ open class SnapshotTestCase: XCTestCase {
         column: UInt = #column
     ) {
         withSnapshotTesting(record: recordMode) {
-            for device in Self.devices {
+            for device in devices {
                 if delayForLayout > 0 {
                     assertSnapshot(
                         of: view,
