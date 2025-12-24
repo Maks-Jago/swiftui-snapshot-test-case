@@ -6,7 +6,7 @@ import SwiftUI
 
 open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
-    open var devices: [ViewImageConfig] = [.iPhone13Pro]
+    public static var devices: [ViewImageConfig] = [.iPhone15Pro]
     public static var deviceReference: String = "iPhone 15 Pro"
     public static var osVersionReference: String = "17.5"
     
@@ -21,17 +21,6 @@ open class SnapshotTestCase: XCTestCase {
             false
         }
     }()
-    
-    private var currentScreenSize: CGRect? {
-        UIApplication
-            .shared
-            .connectedScenes
-            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
-            .first?
-            .windowScene?
-            .screen
-            .bounds
-    }
     
     open override class func setUp() {
         let device = UIDevice.current.name
@@ -63,7 +52,7 @@ open class SnapshotTestCase: XCTestCase {
         column: UInt = #column
     ) {
         withSnapshotTesting(record: recordMode) {
-            for device in devices {
+            for device in Self.devices {
                 if delayForLayout > 0 {
                     assertSnapshot(
                         of: view,
@@ -73,9 +62,7 @@ open class SnapshotTestCase: XCTestCase {
                                 drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                                 precision: precision,
                                 perceptualPrecision: perceptualPrecision,
-                                layout: currentScreenSize
-                                    .map { SwiftUISnapshotLayout.fixed(width: $0.width, height: $0.height) }
-                                ?? .device(config: device)
+                                layout: .device(config: device)
                             )
                         ),
                         file: file,
@@ -90,9 +77,7 @@ open class SnapshotTestCase: XCTestCase {
                             drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                             precision: precision,
                             perceptualPrecision: perceptualPrecision,
-                            layout: currentScreenSize
-                                .map { SwiftUISnapshotLayout.fixed(width: $0.width, height: $0.height) }
-                            ?? .device(config: device)
+                            layout: .device(config: device)
                         ),
                         file: file,
                         testName: testName,
