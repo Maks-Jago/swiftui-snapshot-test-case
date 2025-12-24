@@ -63,7 +63,8 @@ open class SnapshotTestCase: XCTestCase {
                                 drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                                 precision: precision,
                                 perceptualPrecision: perceptualPrecision,
-                                layout: .device(config: device)
+                                layout: .device(config: device),
+                                traits: .init(displayGamut: .SRGB)
                             )
                         ),
                         file: file,
@@ -78,7 +79,8 @@ open class SnapshotTestCase: XCTestCase {
                             drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                             precision: precision,
                             perceptualPrecision: perceptualPrecision,
-                            layout: .device(config: device)
+                            layout: .device(config: device),
+                            traits: .init(displayGamut: .SRGB)
                         ),
                         file: file,
                         testName: testName,
