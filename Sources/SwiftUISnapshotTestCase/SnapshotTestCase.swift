@@ -6,7 +6,7 @@ import SwiftUI
 
 open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
-    open var devices: [ViewImageConfig] { [.iPhone17Pro] }
+    open var devices: [ViewImageConfig] = [.iPhone17Pro]
     public static var deviceReference: String = "iPhone 17 Pro"
     public static var osVersionReference: String = "26.2"
     
