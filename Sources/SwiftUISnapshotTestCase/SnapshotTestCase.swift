@@ -6,10 +6,11 @@ import SwiftUI
 
 open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
-    open var devices: [ViewImageConfig] = [.iPhone13Pro]
-    public static var deviceReference: String = "iPhone 15 Pro"
-    public static var osVersionReference: String = "17.5"
-
+    open var devices: [ViewImageConfig] = [.iPhone17Pro]
+    
+    public static var deviceReference: String = "iPhone 17 Pro"
+    public static var osVersionReference: String = "26.2"
+    
     private var recordMode: SnapshotTestingConfiguration.Record {
         isRecording ? .all : .missing
     }
@@ -21,22 +22,26 @@ open class SnapshotTestCase: XCTestCase {
             false
         }
     }()
-
+    
     open override class func setUp() {
         let device = UIDevice.current.name
         if !device.contains(deviceReference) {
             fatalError("Switch to using \(deviceReference) (\(osVersionReference) for these tests.")
         }
-
+        
         let systemVersion = UIDevice.current.systemVersion
         if systemVersion != osVersionReference {
             fatalError("Switch to using \(deviceReference) (\(osVersionReference) for these tests.")
         }
-
+        
         UIView.setAnimationsEnabled(false)
-        UIApplication.shared.windows.first?.layer.speed = 100
+        UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first(where: { $0.isKeyWindow })?.layer.speed = 100
     }
-
+    
     public func snapshot(
         for view: some View,
         precision: Float = 0.99,
@@ -47,19 +52,18 @@ open class SnapshotTestCase: XCTestCase {
         line: UInt = #line,
         column: UInt = #column
     ) {
-        let vc = UIHostingController(rootView: view)
         withSnapshotTesting(record: recordMode) {
             for device in devices {
                 if delayForLayout > 0 {
                     assertSnapshot(
-                        of: vc,
+                        of: view,
                         as: .wait(
                             for: delayForLayout,
                             on: .image(
-                                on: device,
                                 drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                                 precision: precision,
-                                perceptualPrecision: perceptualPrecision
+                                perceptualPrecision: perceptualPrecision,
+                                layout: .device(config: device)
                             )
                         ),
                         file: file,
@@ -69,12 +73,12 @@ open class SnapshotTestCase: XCTestCase {
                     )
                 } else {
                     assertSnapshot(
-                        of: vc,
+                        of: view,
                         as: .image(
-                            on: device,
                             drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                             precision: precision,
-                            perceptualPrecision: perceptualPrecision
+                            perceptualPrecision: perceptualPrecision,
+                            layout: .device(config: device)
                         ),
                         file: file,
                         testName: testName,
