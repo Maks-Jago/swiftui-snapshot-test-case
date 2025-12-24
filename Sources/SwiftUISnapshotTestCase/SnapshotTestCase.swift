@@ -6,10 +6,7 @@ import SwiftUI
 
 open class SnapshotTestCase: XCTestCase {
     open var isRecording: Bool = false
-    open var devices: [ViewImageConfig] {
-        get { Self.defaultDevices }
-        set { Self.defaultDevices = newValue }
-    }
+    open var devices: [ViewImageConfig] = SnapshotTestCase.defaultDevices
     
     public static var defaultDevices: [ViewImageConfig] = [.iPhone17Pro]
     public static var deviceReference: String = "iPhone 17 Pro"
