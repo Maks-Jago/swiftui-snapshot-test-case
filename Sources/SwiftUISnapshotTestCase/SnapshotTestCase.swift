@@ -62,7 +62,7 @@ open class SnapshotTestCase: XCTestCase {
                                 drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                                 precision: precision,
                                 perceptualPrecision: perceptualPrecision,
-                                layout: .sizeThatFits
+                                layout: .device(config: device)
                             )
                         ),
                         file: file,
@@ -77,7 +77,7 @@ open class SnapshotTestCase: XCTestCase {
                             drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                             precision: precision,
                             perceptualPrecision: perceptualPrecision,
-                            layout: .sizeThatFits
+                            layout: .device(config: device)
                         ),
                         file: file,
                         testName: testName,
