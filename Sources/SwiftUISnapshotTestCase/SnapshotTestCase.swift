@@ -59,6 +59,7 @@ open class SnapshotTestCase: XCTestCase {
                         as: .wait(
                             for: delayForLayout,
                             on: .image(
+                                on: device,
                                 drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                                 precision: precision,
                                 perceptualPrecision: perceptualPrecision,
@@ -74,6 +75,7 @@ open class SnapshotTestCase: XCTestCase {
                     assertSnapshot(
                         of: view,
                         as: .image(
+                            on: device,
                             drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                             precision: precision,
                             perceptualPrecision: perceptualPrecision,
