@@ -22,6 +22,17 @@ open class SnapshotTestCase: XCTestCase {
         }
     }()
     
+    private var currentScreenSize: CGRect? {
+        UIApplication
+            .shared
+            .connectedScenes
+            .compactMap { ($0 as? UIWindowScene)?.keyWindow }
+            .first?
+            .windowScene?
+            .screen
+            .bounds
+    }
+    
     open override class func setUp() {
         let device = UIDevice.current.name
         if !device.contains(deviceReference) {
@@ -62,7 +73,9 @@ open class SnapshotTestCase: XCTestCase {
                                 drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                                 precision: precision,
                                 perceptualPrecision: perceptualPrecision,
-                                layout: .device(config: device)
+                                layout: currentScreenSize
+                                    .map { SwiftUISnapshotLayout.fixed(width: $0.width, height: $0.height) }
+                                ?? .device(config: device)
                             )
                         ),
                         file: file,
@@ -77,7 +90,9 @@ open class SnapshotTestCase: XCTestCase {
                             drawHierarchyInKeyWindow: shouldDrawHierarchyInKeyWindow,
                             precision: precision,
                             perceptualPrecision: perceptualPrecision,
-                            layout: .device(config: device)
+                            layout: currentScreenSize
+                                .map { SwiftUISnapshotLayout.fixed(width: $0.width, height: $0.height) }
+                            ?? .device(config: device)
                         ),
                         file: file,
                         testName: testName,
