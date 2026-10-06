@@ -55,5 +55,13 @@ public extension ViewImageConfig {
     static func iPhone17Pro(_ orientation: Orientation) -> ViewImageConfig {
         return .iPhone16Pro(orientation)
     }
+
+    // MARK: - iPhone 18 Pro
+    // 6.3" Display | 402 x 874 pts | 1206 x 2622 px at 3x
+    static let iPhone18Pro = ViewImageConfig.iPhone18Pro(.portrait)
+
+    static func iPhone18Pro(_ orientation: Orientation) -> ViewImageConfig {
+        return .iPhone17Pro(orientation)
+    }
 }
 #endif
